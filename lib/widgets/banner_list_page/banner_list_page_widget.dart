@@ -71,7 +71,7 @@ class _BannerListPageWidgetState extends State<BannerListPageWidget> {
                             return Stack(
                               fit: StackFit.expand,
                               children: [
-                                CustomCatchedNetworkImage(banner: banner),
+                                CustomCatchedNetworkImage(url: banner.imageUrl),
                                 Positioned(
                                   top: 6,
                                   right: 6,

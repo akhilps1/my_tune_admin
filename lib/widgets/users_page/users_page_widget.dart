@@ -45,7 +45,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                 ),
                 actions: [
                   SizedBox(
-                    width: size.width * 0.25,
+                    width: size.width * 0.2,
                     child: Center(
                       child: CustomSearchField(
                         hint: 'Mobile Number',

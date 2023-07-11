@@ -1,20 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/banner_list_model/banner_list_model.dart';
-
 class CustomCatchedNetworkImage extends StatelessWidget {
   const CustomCatchedNetworkImage({
     Key? key,
-    required this.banner,
+    required this.url,
   }) : super(key: key);
 
-  final BannerModel banner;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: banner.imageUrl,
+      imageUrl: url,
       height: double.infinity,
       width: double.infinity,
       imageBuilder: (context, imageProvider) => Container(

@@ -56,7 +56,8 @@ class CustomEditBannerDialogBoxWidget extends StatelessWidget {
                             shadowColor: Colors.black,
                             elevation: 2,
                             child: state.bytesFromPicker == null
-                                ? CustomCatchedNetworkImage(banner: bannerModel)
+                                ? CustomCatchedNetworkImage(
+                                    url: bannerModel.imageUrl)
                                 : InkWell(
                                     onTap: () => state.pickImage(),
                                     child: CustomMemoryImageWidget(
