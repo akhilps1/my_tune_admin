@@ -1,0 +1,4 @@
+enum GetUserState {
+  search,
+  normal,
+}
