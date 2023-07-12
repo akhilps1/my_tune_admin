@@ -17,6 +17,8 @@ class UploadsPageProvider extends ChangeNotifier {
   bool isLoading = false;
   Either<MainFailures, Uint8List>? failureOrSuccess;
 
+  List<CategoryModel> categories = [];
+
   Future<void> pickImage() async {
     failureOrSuccess = await PickImageServeice.pickImage();
   }
@@ -55,7 +57,16 @@ class UploadsPageProvider extends ChangeNotifier {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('categories');
     try {
-      await collectionReference.add(categoryModel.toMap());
+      String id = collectionReference.id;
+      collectionReference.doc(id).set(categoryModel.toMap());
+
+      categories.add(CategoryModel(
+        id: id,
+        visibility: categoryModel.visibility,
+        categoryName: categoryModel.categoryName,
+        imageUrl: categoryModel.imageUrl,
+        timestamp: categoryModel.timestamp,
+      ));
 
       isLoading = false;
       notifyListeners();
@@ -68,6 +79,5 @@ class UploadsPageProvider extends ChangeNotifier {
       notifyListeners();
       CustomToast.errorToast('Error');
     }
-    notifyListeners();
   }
 }

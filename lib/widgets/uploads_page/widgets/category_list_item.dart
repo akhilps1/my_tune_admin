@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
+import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_popup_menu_button.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_switch_button.dart';
 import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_network.dart';
 
 class CategoryListItem extends StatelessWidget {
-  const CategoryListItem({super.key});
+  const CategoryListItem({
+    super.key,
+    required this.categoryModel,
+  });
+
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class CategoryListItem extends StatelessWidget {
             ),
           ),
         ),
-        child: const Row(
+        child: Row(
           children: [
             Expanded(
               flex: 5,
@@ -34,18 +40,18 @@ class CategoryListItem extends StatelessWidget {
                     height: 85,
                     width: 85,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
                       child: CustomCatchedNetworkImage(
-                        url: 'https://picsum.photos/200/300',
+                        url: categoryModel.imageUrl,
                       ),
                     ),
                   ),
                   kSizedBoxW10,
                   Text(
-                    'Category Name',
-                    style: TextStyle(
+                    categoryModel.categoryName,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.black38,
@@ -57,9 +63,11 @@ class CategoryListItem extends StatelessWidget {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: CustomSwitchButton(),
+              child: CustomSwitchButton(
+                value: categoryModel.visibility,
+              ),
             ),
-            Flexible(
+            const Flexible(
               flex: 1,
               fit: FlexFit.tight,
               child: CustomPopupMenuButton(),

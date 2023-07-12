@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 class CustomSwitchButton extends StatefulWidget {
-  const CustomSwitchButton({super.key});
+  const CustomSwitchButton({super.key, required this.value});
+
+  final bool value;
 
   @override
   State<CustomSwitchButton> createState() => _CustomSwitchButtonState();
 }
 
 class _CustomSwitchButtonState extends State<CustomSwitchButton> {
-  bool light1 = true;
-
   final MaterialStateProperty<Icon?> thumbIcon =
       MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
@@ -31,12 +31,9 @@ class _CustomSwitchButtonState extends State<CustomSwitchButton> {
         Switch(
           activeColor: Colors.green,
           thumbIcon: thumbIcon,
-          value: light1,
+          value: widget.value,
           onChanged: (bool value) {
             log(value.toString());
-            setState(() {
-              light1 = value;
-            });
           },
         ),
       ],
