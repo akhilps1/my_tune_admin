@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/notification_provider/notification_provider.dart';
+import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
 import 'package:my_tune_admin/screens/admn_screen.dart';
 
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
             ..getUsersByLimit(
               loadstate: GetUserState.normal,
             ),
+        ),
+        ChangeNotifierProvider<UploadsPageProvider>(
+          create: (_) => UploadsPageProvider(),
         )
       ],
       child: MaterialApp(

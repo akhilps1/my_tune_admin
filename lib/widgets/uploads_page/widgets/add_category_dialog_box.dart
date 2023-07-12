@@ -1,10 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
+import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
 import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +14,20 @@ import '../../../failures/main_failures.dart';
 import '../../../general/constants.dart';
 import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
 
-class AddCategoryDialogBox extends StatelessWidget {
+class AddCategoryDialogBox extends StatefulWidget {
   const AddCategoryDialogBox({super.key});
 
+  @override
+  State<AddCategoryDialogBox> createState() => _AddCategoryDialogBoxState();
+}
+
+class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
   // bool isnormal = true;
+  Uint8List? image;
+  bool isloading = false;
   @override
   Widget build(BuildContext context) {
-    return Consumer<BannerListPageProvider>(
+    return Consumer<UploadsPageProvider>(
       builder: (context, state, _) => Column(
         children: [
           const Spacer(),
@@ -46,36 +54,60 @@ class AddCategoryDialogBox extends StatelessWidget {
                         width: 300,
                         child: InkWell(
                           onTap: () async {
-                            Either<MainFailures, Uint8List> failureOrSuccess =
-                                await PickImageServeice.pickImage();
+                            if (isloading == false) {
+                              dartz.Either<MainFailures, Uint8List>
+                                  failureOrSuccess =
+                                  await PickImageServeice.pickImage();
 
-                            failureOrSuccess.fold(
-                              (failure) {
-                                failure.maybeMap(
-                                  imagePickerFailure: (_) {},
-                                  fileSizeExeedFailure: (f) {
-                                    CustomToast.errorToast(
-                                        'this image: ${filesize(f.value)} | maximum file size allowed is 200KB');
-                                  },
-                                  orElse: () => null,
-                                );
-                              },
-                              (success) {},
-                            );
+                              setState(() {
+                                isloading = true;
+                              });
+
+                              failureOrSuccess.fold(
+                                (failure) {
+                                  failure.maybeMap(
+                                    imagePickerFailure: (_) {
+                                      setState(() {
+                                        isloading = false;
+                                      });
+                                    },
+                                    fileSizeExeedFailure: (f) {
+                                      setState(() {
+                                        isloading = false;
+                                      });
+                                      CustomToast.errorToast(
+                                          'this image: ${filesize(f.value)} | maximum file size allowed is 200KB');
+                                    },
+                                    orElse: () => null,
+                                  );
+                                },
+                                (success) async {
+                                  await state.uploadImage(bytesImage: success);
+
+                                  setState(() {
+                                    image = success;
+                                    isloading = false;
+                                  });
+                                },
+                              );
+                            }
                           },
-                          child: const Card(
+                          child: Card(
                               shadowColor: Colors.black,
                               elevation: 2,
-                              child: Center(child: Icon(Icons.add))
-                              // : InkWell(
-                              //     onTap: () {},
-                              //     child: CustomMemoryImageWidget(
-                              //       image: ,
-                              //       height: 170,
-                              //       width: 300,
-                              //     ),
-                              //   )
-                              ),
+                              child: image == null
+                                  ? Center(
+                                      child: isloading == false
+                                          ? const Icon(Icons.add)
+                                          : const CupertinoActivityIndicator())
+                                  : InkWell(
+                                      onTap: () {},
+                                      child: CustomMemoryImageWidget(
+                                        image: image!,
+                                        height: 170,
+                                        width: 300,
+                                      ),
+                                    )),
                         ),
                       ),
                       // kSizedBoxH10,
