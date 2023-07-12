@@ -9,7 +9,8 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: Colors.white,
       height: 100,
       width: double.infinity,
       child: Container(

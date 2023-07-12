@@ -75,29 +75,25 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                 left: 20,
                 right: 20,
               ),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 0.3,
-                    blurRadius: 0.2,
-                  )
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+              decoration: const BoxDecoration(
+                // color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
               ),
               child: Column(
                 children: [
                   Container(
                     margin: const EdgeInsets.only(
                       top: 10,
-                      right: 10,
-                      left: 10,
+                      // right: 10,
+                      // left: 10,
                     ),
                     width: double.infinity,
                     height: 35,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(245, 225, 225, 225),
+                      color: const Color.fromARGB(245, 204, 204, 204),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: const Row(
@@ -105,38 +101,71 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                         kSizedBoxW10,
                         Expanded(
                           flex: 4,
-                          child: Text('Ctaegory'),
+                          child: Text(
+                            'Ctaegory',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                         Flexible(
                           flex: 1,
                           fit: FlexFit.tight,
-                          child: Center(child: Text('Status')),
+                          child: Center(
+                            child: Text(
+                              'Status',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
                         ),
                         Flexible(
                           flex: 1,
                           fit: FlexFit.tight,
-                          child: Center(child: Text('Action')),
+                          child: Center(
+                            child: Text(
+                              'Action',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   ),
-                  Divider(
-                    color: Colors.black.withOpacity(0.1),
-                  ),
+                  kSizedBoxH10,
                   Expanded(
                     child: CustomScrollView(
                       slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.only(top: 10),
+                          sliver: SliverToBoxAdapter(
+                            child: Container(
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         SliverList.builder(
                           itemCount: 10,
                           itemBuilder: (context, index) =>
                               const CategoryListItem(),
                         ),
-                        SliverPadding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                            bottom: 20,
-                          ),
-                          sliver: SliverToBoxAdapter(
+                        SliverToBoxAdapter(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            color: Colors.white,
                             child: Center(
                               child: MaterialButton(
                                 color: Colors.black,
@@ -148,7 +177,22 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          sliver: SliverToBoxAdapter(
+                            child: Container(
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -157,8 +201,6 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
             ),
           ),
         ),
-        kSizedBoxH10,
-        kSizedBoxH10,
       ],
     );
   }

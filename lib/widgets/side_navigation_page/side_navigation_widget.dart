@@ -73,7 +73,7 @@ class SideNavigationWidget extends StatelessWidget {
           hoverColor: Colors.white.withOpacity(0.1),
           selectedTitleTextStyle: const TextStyle(color: Colors.white),
           unselectedTitleTextStyle: const TextStyle(color: Colors.white),
-          backgroundColor: const Color.fromRGBO(21, 39, 97, 1)),
+          backgroundColor: Color.fromARGB(255, 11, 9, 73)),
       onDisplayModeChanged: (value) {},
     );
   }

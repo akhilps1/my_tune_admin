@@ -3,15 +3,23 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/failures/main_failures.dart';
+import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 
 import '../../model/uploads_page_model/category_model.dart';
 import '../../serveice/custom_toast.dart';
 
 class UploadsPageProvider extends ChangeNotifier {
   String? url;
-  bool isLoading = true;
+  bool isLoading = false;
+  Either<MainFailures, Uint8List>? failureOrSuccess;
+
+  Future<void> pickImage() async {
+    failureOrSuccess = await PickImageServeice.pickImage();
+  }
 
   Future<void> uploadImage({
     required Uint8List bytesImage,
@@ -42,15 +50,22 @@ class UploadsPageProvider extends ChangeNotifier {
 
   Future<void> uploadCategoryDetails(
       {required CategoryModel categoryModel}) async {
+    isLoading = true;
+    notifyListeners();
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('banner');
+        FirebaseFirestore.instance.collection('categories');
     try {
       await collectionReference.add(categoryModel.toMap());
 
       isLoading = false;
+      notifyListeners();
     } on SocketException catch (_) {
+      isLoading = false;
+      notifyListeners();
       CustomToast.errorToast('No internet connection');
     } catch (_) {
+      isLoading = false;
+      notifyListeners();
       CustomToast.errorToast('Error');
     }
     notifyListeners();

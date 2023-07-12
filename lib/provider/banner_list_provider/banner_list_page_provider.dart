@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -38,14 +37,27 @@ class BannerListPageProvider extends ChangeNotifier {
   Future<void> uploadImage({required Uint8List bytesImage}) async {
     isLoading = true;
     notifyListeners();
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference imageRefernce = referenceRoot.child('banner');
-    Reference imageToUpload = imageRefernce.child(
-      DateTime.now().millisecondsSinceEpoch.toString(),
-    );
+    // Reference referenceRoot = FirebaseStorage.instance.ref();
+    // Reference imageRefernce = referenceRoot.child('banner');
+    // Reference imageToUpload = imageRefernce.child(
+    //   DateTime.now().millisecondsSinceEpoch.toString(),
+    // );
     try {
-      await imageToUpload.putData(bytesImage);
-      url = await imageToUpload.getDownloadURL();
+      // await imageToUpload.putData(bytesImage);
+      // url = await imageToUpload.getDownloadURL();
+
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      Reference storageRef = storage
+          .ref()
+          .child('banners')
+          .child('${Timestamp.now().microsecondsSinceEpoch}jpeg_image.jpeg');
+
+      final value = await storageRef.putData(
+        bytesImage,
+        SettableMetadata(contentType: 'image/jpeg'),
+      );
+      url = await value.ref.getDownloadURL();
     } on FirebaseException catch (e) {
       CustomToast.errorToast('error ${e.code}');
     } on SocketException catch (_) {

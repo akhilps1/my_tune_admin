@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CategoryModel {
-  String? id;
+  final String? id;
   bool visibility;
   String categoryName;
   String imageUrl;
@@ -19,7 +19,6 @@ class CategoryModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'visibility': visibility,
       'categoryName': categoryName,
       'imageUrl': imageUrl,

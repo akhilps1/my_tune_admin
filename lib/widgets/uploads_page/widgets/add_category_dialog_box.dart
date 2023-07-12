@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
@@ -25,6 +28,8 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
   // bool isnormal = true;
   Uint8List? image;
   bool isloading = false;
+
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Consumer<UploadsPageProvider>(
@@ -55,41 +60,12 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                         child: InkWell(
                           onTap: () async {
                             if (isloading == false) {
-                              dartz.Either<MainFailures, Uint8List>
-                                  failureOrSuccess =
-                                  await PickImageServeice.pickImage();
-
+                              await state.pickImage();
                               setState(() {
                                 isloading = true;
                               });
 
-                              failureOrSuccess.fold(
-                                (failure) {
-                                  failure.maybeMap(
-                                    imagePickerFailure: (_) {
-                                      setState(() {
-                                        isloading = false;
-                                      });
-                                    },
-                                    fileSizeExeedFailure: (f) {
-                                      setState(() {
-                                        isloading = false;
-                                      });
-                                      CustomToast.errorToast(
-                                          'this image: ${filesize(f.value)} | maximum file size allowed is 200KB');
-                                    },
-                                    orElse: () => null,
-                                  );
-                                },
-                                (success) async {
-                                  await state.uploadImage(bytesImage: success);
-
-                                  setState(() {
-                                    image = success;
-                                    isloading = false;
-                                  });
-                                },
-                              );
+                              await upload(state: state);
                             }
                           },
                           child: Card(
@@ -98,15 +74,29 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                               child: image == null
                                   ? Center(
                                       child: isloading == false
-                                          ? const Icon(Icons.add)
-                                          : const CupertinoActivityIndicator())
+                                          ? const Icon(
+                                              Icons.add,
+                                            )
+                                          : const CupertinoActivityIndicator(),
+                                    )
                                   : InkWell(
-                                      onTap: () {},
-                                      child: CustomMemoryImageWidget(
-                                        image: image!,
-                                        height: 170,
-                                        width: 300,
-                                      ),
+                                      onTap: () async {
+                                        await state.pickImage();
+                                        setState(() {
+                                          isloading = true;
+                                        });
+                                        await upload(state: state);
+                                      },
+                                      child: isloading == false
+                                          ? CustomMemoryImageWidget(
+                                              image: image!,
+                                              height: 170,
+                                              width: 300,
+                                            )
+                                          : const Center(
+                                              child:
+                                                  CupertinoActivityIndicator(),
+                                            ),
                                     )),
                         ),
                       ),
@@ -160,6 +150,7 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                       SizedBox(
                         width: 300,
                         child: TextFormField(
+                          controller: controller,
                           decoration: const InputDecoration(
                             hintText: 'Enter Category Name',
                             border: OutlineInputBorder(),
@@ -176,10 +167,29 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                             padding: const EdgeInsets.symmetric(vertical: 15),
                           ),
                           onPressed: () async {
+                            if (image == null) {
+                              CustomToast.errorToast('Please select an image');
+                              return;
+                            }
+                            if (controller.text.isEmpty) {
+                              CustomToast.errorToast(
+                                  'Please add category name');
+                              return;
+                            }
+
+                            final CategoryModel categoryModel = CategoryModel(
+                              visibility: true,
+                              categoryName: controller.text,
+                              imageUrl: state.url!,
+                              timestamp: Timestamp.now(),
+                            );
+
+                            await state.uploadCategoryDetails(
+                                categoryModel: categoryModel);
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },
-                          child: false == false
+                          child: state.isLoading == false
                               ? const Text(
                                   'Add Category',
                                   style: TextStyle(
@@ -205,7 +215,8 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                 style: IconButton.styleFrom(
                   hoverColor: Colors.grey,
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -216,6 +227,37 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
           const Spacer()
         ],
       ),
+    );
+  }
+
+  Future<void> upload({required UploadsPageProvider state}) async {
+    state.failureOrSuccess!.fold(
+      (failure) {
+        failure.maybeMap(
+          imagePickerFailure: (_) {
+            setState(() {
+              isloading = false;
+            });
+          },
+          fileSizeExeedFailure: (f) {
+            setState(() {
+              isloading = false;
+            });
+            CustomToast.errorToast(
+                'this image: ${filesize(f.value)} | maximum file size allowed is 200KB');
+          },
+          orElse: () => null,
+        );
+      },
+      (success) async {
+        log(success.length.toString());
+        await state.uploadImage(bytesImage: success);
+
+        setState(() {
+          image = success;
+          isloading = false;
+        });
+      },
     );
   }
 }

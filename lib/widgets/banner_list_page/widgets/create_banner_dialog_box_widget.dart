@@ -30,7 +30,7 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18)), //this right here
             child: SizedBox(
-              height: 365,
+              height: 380,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 8, left: 10, right: 10, bottom: 10),
