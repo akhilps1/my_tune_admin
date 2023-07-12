@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_tune_admin/widgets/add_product_page/widgets/add_category_dialog_box.dart';
-import 'package:my_tune_admin/widgets/add_product_page/widgets/category_list_item.dart';
+import 'package:my_tune_admin/widgets/uploads_page/widgets/add_category_dialog_box.dart';
+import 'package:my_tune_admin/widgets/uploads_page/widgets/category_list_item.dart';
 import 'package:my_tune_admin/widgets/users_page/widgets/custom_search_field.dart';
 
 import '../../general/constants.dart';

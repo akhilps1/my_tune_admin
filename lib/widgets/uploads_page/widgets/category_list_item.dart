@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
-import 'package:my_tune_admin/widgets/add_product_page/widgets/custom_popup_menu_button.dart';
-import 'package:my_tune_admin/widgets/add_product_page/widgets/custom_switch_button.dart';
+import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_popup_menu_button.dart';
+import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_switch_button.dart';
 import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_network.dart';
 
 class CategoryListItem extends StatelessWidget {

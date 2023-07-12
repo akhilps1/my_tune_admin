@@ -21,7 +21,7 @@ class SideNavigationWidget extends StatelessWidget {
         ),
         SideMenuItem(
           priority: 1,
-          title: 'Add Product',
+          title: 'Uploads',
           onTap: (index, _) {
             sideMenuController.changePage(index);
           },
