@@ -163,6 +163,7 @@ class _BannerListPageWidgetState extends State<BannerListPageWidget> {
       {required BuildContext context, BannerModel? bannerModel}) {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Material(
             type: MaterialType.transparency,

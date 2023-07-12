@@ -24,10 +24,14 @@ dependencies:
   cloud_firestore: ^4.8.2
   http: ^0.13.5
   firebase_messaging: ^14.6.4
+  dartz: ^0.10.1
+  freezed_annotation: ^2.2.0
+  build_runner: ^2.4.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  freezed: ^2.4.0
 flutter:
   uses-material-design: true

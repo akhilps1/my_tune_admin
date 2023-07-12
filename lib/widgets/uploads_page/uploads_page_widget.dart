@@ -17,7 +17,7 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         AppBar(
@@ -49,7 +49,10 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 50),
+              padding: EdgeInsets.only(
+                left: size.width >= 500 ? 50 : 20,
+                right: size.width >= 500 ? 50 : 20,
+              ),
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 300),
                 // width: size.width * 0.25,
