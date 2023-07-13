@@ -64,7 +64,7 @@ class CategoryListItem extends StatelessWidget {
               flex: 1,
               fit: FlexFit.tight,
               child: CustomSwitchButton(
-                value: categoryModel.visibility,
+                categoryModel: categoryModel,
               ),
             ),
             const Flexible(

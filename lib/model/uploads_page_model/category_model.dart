@@ -8,12 +8,14 @@ class CategoryModel {
   bool visibility;
   String categoryName;
   String imageUrl;
-  Timestamp timestamp;
+  final Timestamp timestamp;
+  final List keywords;
   CategoryModel({
     required this.visibility,
     required this.categoryName,
     required this.imageUrl,
     required this.timestamp,
+    required this.keywords,
     this.id,
   });
 
@@ -23,6 +25,7 @@ class CategoryModel {
       'categoryName': categoryName,
       'imageUrl': imageUrl,
       'timestamp': timestamp,
+      'keywords': keywords,
     };
   }
 
@@ -35,6 +38,7 @@ class CategoryModel {
       categoryName: map['categoryName'] as String,
       imageUrl: map['imageUrl'] as String,
       timestamp: map['timestamp'] as Timestamp,
+      keywords: map['keywords'] as List,
     );
   }
 

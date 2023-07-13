@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/add_category_dialog_box.dart';
@@ -117,7 +118,7 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                             fit: FlexFit.tight,
                             child: Center(
                               child: Text(
-                                'Status',
+                                'Visibility',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -173,19 +174,22 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                                   hasScrollBody: false,
                                   child: Container(
                                     color: Colors.white,
-                                    child: const Center(
-                                      child: Text(
-                                        'Categories is empty!',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black38,
-                                        ),
-                                      ),
+                                    child: Center(
+                                      child: state.isLoading == false
+                                          ? const Text(
+                                              'Categories is empty!',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black38,
+                                              ),
+                                            )
+                                          : const CupertinoActivityIndicator(),
                                     ),
                                   ),
                                 ),
-                          state.categories.length >= 7
+                          state.isDataEmpty == false &&
+                                  state.categories.length >= 7
                               ? SliverToBoxAdapter(
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -197,8 +201,13 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                                         textColor: Colors.white,
                                         height: 50,
                                         minWidth: 200,
-                                        onPressed: () async {},
-                                        child: const Text('Show more'),
+                                        onPressed: () async {
+                                          state.getCategoriesByLimit();
+                                        },
+                                        child: state.showCircularIndicater ==
+                                                false
+                                            ? const Text('Show more')
+                                            : const CupertinoActivityIndicator(),
                                       ),
                                     ),
                                   ),

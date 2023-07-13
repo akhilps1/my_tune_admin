@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/general/keywords.dart';
 import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
@@ -182,6 +183,7 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                               categoryName: controller.text,
                               imageUrl: state.url!,
                               timestamp: Timestamp.now(),
+                              keywords: getKeywords(controller.text),
                             );
 
                             await state.uploadCategoryDetails(
@@ -235,9 +237,11 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
       (failure) {
         failure.maybeMap(
           imagePickerFailure: (_) {
-            setState(() {
-              isloading = false;
-            });
+            setState(
+              () {
+                isloading = false;
+              },
+            );
           },
           fileSizeExeedFailure: (f) {
             setState(() {

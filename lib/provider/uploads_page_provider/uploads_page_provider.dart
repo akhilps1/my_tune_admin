@@ -17,7 +17,12 @@ class UploadsPageProvider extends ChangeNotifier {
   bool isLoading = false;
   Either<MainFailures, Uint8List>? failureOrSuccess;
 
+  bool loadDataFromFirebase = true;
+  bool isDataEmpty = false;
+  bool showCircularIndicater = false;
+
   List<CategoryModel> categories = [];
+  QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
   Future<void> pickImage() async {
     failureOrSuccess = await PickImageServeice.pickImage();
@@ -54,10 +59,12 @@ class UploadsPageProvider extends ChangeNotifier {
       {required CategoryModel categoryModel}) async {
     isLoading = true;
     notifyListeners();
+
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('categories');
     try {
-      String id = collectionReference.id;
+      String id = collectionReference.doc().id;
+      log(id.toString());
       collectionReference.doc(id).set(categoryModel.toMap());
 
       categories.add(CategoryModel(
@@ -66,6 +73,7 @@ class UploadsPageProvider extends ChangeNotifier {
         categoryName: categoryModel.categoryName,
         imageUrl: categoryModel.imageUrl,
         timestamp: categoryModel.timestamp,
+        keywords: categoryModel.keywords,
       ));
 
       isLoading = false;
@@ -79,5 +87,88 @@ class UploadsPageProvider extends ChangeNotifier {
       notifyListeners();
       CustomToast.errorToast('Error');
     }
+  }
+
+  Future<void> getCategoriesByLimit() async {
+    QuerySnapshot<Map<String, dynamic>> refreshedClass;
+
+    if (lastDoc == null) {
+      loadDataFromFirebase = true;
+    }
+    isLoading = true;
+    showCircularIndicater = true;
+    isDataEmpty = false;
+    notifyListeners();
+    try {
+      refreshedClass = lastDoc == null
+          ? await FirebaseFirestore.instance
+              .collection('categories')
+              .orderBy('timestamp', descending: true)
+              .limit(7)
+              .get()
+          : await FirebaseFirestore.instance
+              .collection('categories')
+              .orderBy('timestamp', descending: true)
+              .startAfterDocument(lastDoc!)
+              .limit(4)
+              .get();
+
+      lastDoc = refreshedClass.docs.last;
+
+      log(refreshedClass.docs.toString());
+
+      if (refreshedClass.docs.length <= 7) {
+        isLoading = false;
+      }
+
+      categories.addAll(
+        refreshedClass.docs.map((e) {
+          return CategoryModel.fromFireStore(e);
+        }),
+      );
+      log(categories.toString());
+
+      loadDataFromFirebase = false;
+      showCircularIndicater = false;
+      notifyListeners();
+
+      // log(users.length.toString());
+    } catch (e) {
+      isLoading = false;
+      isDataEmpty = true;
+      showCircularIndicater = false;
+      CustomToast.normalToast('Nothing to show');
+      notifyListeners();
+    }
+  }
+
+  Future<void> changeCategoryVisibility({
+    required CategoryModel categoryModel,
+    required bool value,
+  }) async {
+    final data = CategoryModel(
+      visibility: value,
+      categoryName: categoryModel.categoryName,
+      imageUrl: categoryModel.imageUrl,
+      timestamp: categoryModel.timestamp,
+      keywords: categoryModel.keywords,
+    );
+
+    // final category = categories.where(
+    //   (element) => element.id == categoryModel.id,
+    // // );
+    // final category = categories.map((e) => null)
+
+    for (var element in categories) {
+      if (element.id == categoryModel.id) {
+        element.visibility = value;
+        notifyListeners();
+      }
+    }
+
+    await FirebaseFirestore.instance
+        .collection('categories')
+        .doc(categoryModel.id)
+        .update(data.toMap());
   }
 }
