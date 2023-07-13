@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/add_category_dialog_box.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/category_list_item.dart';
@@ -62,7 +63,19 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                   // width: size.width * 0.25,
                   child: CustomSearchField(
                     hint: 'Search Category',
-                    onPress: () {},
+                    onFieldSubmitted: (value) async {
+                      state.clearDoc();
+                      await state.searhCategory(
+                        categoryName: controller.text.toLowerCase(),
+                        categoryState: GetCategoryState.search,
+                      );
+                    },
+                    onPress: () async {
+                      controller.clear();
+                      await state.getCategoriesByLimit(
+                        categoryState: GetCategoryState.normal,
+                      );
+                    },
                     controller: controller,
                   ),
                 ),
@@ -202,7 +215,10 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                                         height: 50,
                                         minWidth: 200,
                                         onPressed: () async {
-                                          state.getCategoriesByLimit();
+                                          state.getCategoriesByLimit(
+                                            categoryState:
+                                                GetCategoryState.normal,
+                                          );
                                         },
                                         child: state.showCircularIndicater ==
                                                 false

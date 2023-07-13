@@ -67,10 +67,12 @@ class CategoryListItem extends StatelessWidget {
                 categoryModel: categoryModel,
               ),
             ),
-            const Flexible(
+            Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: CustomPopupMenuButton(),
+              child: CustomPopupMenuButton(
+                categoryModel: categoryModel,
+              ),
             )
           ],
         ),

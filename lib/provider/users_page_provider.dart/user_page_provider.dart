@@ -45,7 +45,7 @@ class UserPageProvider extends ChangeNotifier {
 
       lastDoc = refreshedClass.docs.last;
 
-      log(refreshedClass.docs.toString());
+      // log(refreshedClass.docs.toString());
 
       if (refreshedClass.docs.length <= 7) {
         isLoading = false;

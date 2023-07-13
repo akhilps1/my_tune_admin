@@ -43,7 +43,10 @@ class MyApp extends StatelessWidget {
             ),
         ),
         ChangeNotifierProvider<UploadsPageProvider>(
-          create: (_) => UploadsPageProvider()..getCategoriesByLimit(),
+          create: (_) => UploadsPageProvider()
+            ..getCategoriesByLimit(
+              categoryState: GetCategoryState.normal,
+            ),
         )
       ],
       child: MaterialApp(
