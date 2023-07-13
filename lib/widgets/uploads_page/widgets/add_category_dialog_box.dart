@@ -2,19 +2,17 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart' as dartz;
+
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:my_tune_admin/general/keywords.dart';
 import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
-import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
-import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 import 'package:provider/provider.dart';
 
-import '../../../failures/main_failures.dart';
 import '../../../general/constants.dart';
 import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
 

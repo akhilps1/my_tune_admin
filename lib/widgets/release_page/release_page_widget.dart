@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 class ReleasePageWidget extends StatefulWidget {
   const ReleasePageWidget({super.key});
 
@@ -12,6 +12,6 @@ class _ReleasePageWidgetState extends State<ReleasePageWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: Text('release'),
-    );;
+    );
   }
 }

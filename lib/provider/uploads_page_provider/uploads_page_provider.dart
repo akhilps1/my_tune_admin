@@ -22,6 +22,9 @@ class UploadsPageProvider extends ChangeNotifier {
   bool isDataEmpty = false;
   bool showCircularIndicater = false;
 
+  bool show = true;
+  String? categoryId;
+
   GetCategoryState state = GetCategoryState.normal;
 
   List<CategoryModel> categories = [];
@@ -282,6 +285,15 @@ class UploadsPageProvider extends ChangeNotifier {
     loadDataFromFirebase = false;
     isLoading = false;
     showCircularIndicater = false;
+  }
+
+  void showCategories({
+    required bool value,
+    required String? categoryId,
+  }) {
+    show = value;
+    categoryId = categoryId;
+    notifyListeners();
   }
 
   void clearDoc() {

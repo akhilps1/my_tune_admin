@@ -1,11 +1,8 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_tune_admin/enums/enums.dart';
-import 'package:my_tune_admin/general/keywords.dart';
+
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
 import 'package:my_tune_admin/widgets/users_page/widgets/custom_search_field.dart';
 import 'package:provider/provider.dart';
@@ -83,98 +80,76 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: SizedBox(
-                        width: 1000,
-                        child: CustomScrollView(
-                          slivers: [
-                            state.loadDataFromFirebase == false
-                                ? SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                      childCount: state.users.length,
-                                      (context, index) {
-                                        final appUser = state.users[index];
+                      width: 1000,
+                      child: CustomScrollView(
+                        slivers: [
+                          state.loadDataFromFirebase == false
+                              ? SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    childCount: state.users.length,
+                                    (context, index) {
+                                      final appUser = state.users[index];
 
-                                        return UserDetailsWidget(
-                                          appUser: appUser,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : const SliverFillRemaining(
-                                    child: SizedBox(
-                                      child: Center(
-                                        child: CupertinoActivityIndicator(),
-                                      ),
+                                      return UserDetailsWidget(
+                                        appUser: appUser,
+                                      );
+                                    },
+                                  ),
+                                )
+                              : const SliverFillRemaining(
+                                  child: SizedBox(
+                                    child: Center(
+                                      child: CupertinoActivityIndicator(),
                                     ),
                                   ),
-                            SliverToBoxAdapter(
-                              child: state.loadDataFromFirebase == false
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Center(
-                                        child: state.isDataEmpty == false &&
-                                                state.users.length >= 7
-                                            ? MaterialButton(
-                                                color: Colors.black54,
-                                                textColor: Colors.white,
-                                                height: 50,
-                                                minWidth: 200,
-                                                onPressed: () async {
-                                                  // final Map<String, dynamic>
-                                                  //     data = {
-                                                  //   'userName': 'Akhil',
-                                                  //   'imageUrl': 'url',
-                                                  //   'mobileNumber':
-                                                  //       '+919567012345',
-                                                  //   'email': 'example@ak.com',
-                                                  //   'age': '23',
-                                                  //   'city': 'city',
-                                                  //   'favorateSinger': 'singer',
-                                                  //   'skills': ['skills'],
-                                                  //   'hobbies': ['hobbies'],
-                                                  //   'timestamp':
-                                                  //       Timestamp.now(),
-                                                  //   'keywords': getKeywords(
-                                                  //       '919567012345')
-                                                  // };
-
-                                                  // await FirebaseFirestore
-                                                  //     .instance
-                                                  //     .collection('users')
-                                                  //     .add(data);
-
-                                                  if (state.currentState ==
-                                                      GetUserState.normal) {
-                                                    await state.getUsersByLimit(
-                                                      loadstate:
-                                                          GetUserState.normal,
-                                                    );
-                                                  } else {
-                                                    await state
-                                                        .searchUserUsingMobileNumber(
-                                                      loadstate:
-                                                          GetUserState.search,
-                                                      mobileNumber:
-                                                          searchController.text,
-                                                    );
-                                                  }
-                                                },
-                                                child: state.showCircularIndicater ==
-                                                        false
-                                                    ? const Text(
-                                                        'Show More',
-                                                      )
-                                                    : const CupertinoActivityIndicator(
-                                                        color: Colors.white,
-                                                      ),
-                                              )
-                                            : const SizedBox(),
-                                      ),
-                                    )
-                                  : null,
-                            )
-                          ],
-                        )),
+                                ),
+                          SliverToBoxAdapter(
+                            child: state.loadDataFromFirebase == false
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Center(
+                                      child: state.isDataEmpty == false &&
+                                              state.users.length >= 7
+                                          ? MaterialButton(
+                                              color: Colors.black87,
+                                              textColor: Colors.white,
+                                              height: 50,
+                                              minWidth: 200,
+                                              onPressed: () async {
+                                                if (state.currentState ==
+                                                    GetUserState.normal) {
+                                                  await state.getUsersByLimit(
+                                                    loadstate:
+                                                        GetUserState.normal,
+                                                  );
+                                                } else {
+                                                  await state
+                                                      .searchUserUsingMobileNumber(
+                                                    loadstate:
+                                                        GetUserState.search,
+                                                    mobileNumber:
+                                                        searchController.text,
+                                                  );
+                                                }
+                                              },
+                                              child: state.showCircularIndicater ==
+                                                      false
+                                                  ? const Text(
+                                                      'Show More',
+                                                    )
+                                                  : const CupertinoActivityIndicator(
+                                                      color: Colors.white,
+                                                    ),
+                                            )
+                                          : const SizedBox(),
+                                    ),
+                                  )
+                                : null,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               )

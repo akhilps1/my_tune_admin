@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class TrendingPageWidget extends StatefulWidget {
@@ -13,6 +12,6 @@ class _TrendingPageWidgetState extends State<TrendingPageWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: Text('trending'),
-    );;
+    );
   }
 }
