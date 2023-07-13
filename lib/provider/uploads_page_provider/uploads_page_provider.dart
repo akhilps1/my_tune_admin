@@ -23,7 +23,8 @@ class UploadsPageProvider extends ChangeNotifier {
   bool showCircularIndicater = false;
 
   bool show = true;
-  String? categoryId;
+
+  String? categoryId, categoryName;
 
   GetCategoryState state = GetCategoryState.normal;
 
@@ -290,9 +291,11 @@ class UploadsPageProvider extends ChangeNotifier {
   void showCategories({
     required bool value,
     required String? categoryId,
+    required String? name,
   }) {
     show = value;
     categoryId = categoryId;
+    categoryName = name;
     notifyListeners();
   }
 

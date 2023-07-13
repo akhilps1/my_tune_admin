@@ -121,12 +121,25 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                               children: [
                                 kSizedBoxW10,
                                 Expanded(
-                                  flex: 4,
+                                  flex: 3,
                                   child: Text(
                                     'Ctaegory',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  fit: FlexFit.tight,
+                                  child: Center(
+                                    child: Text(
+                                      'Followers',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -187,8 +200,11 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                                           return InkWell(
                                             onTap: () {
                                               state.showCategories(
-                                                  value: false,
-                                                  categoryId: category.id);
+                                                value: false,
+                                                categoryId: category.id,
+                                                name: category.categoryName,
+                                              );
+
                                               log('categoryId: ${category.id}');
                                             },
                                             child: CategoryListItem(
@@ -269,9 +285,7 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
               ],
             ),
           )
-        : const ProductListPage(
-            categoryId: '',
-          );
+        : const ProductListPage();
   }
 
   Future showDialogMeassage({

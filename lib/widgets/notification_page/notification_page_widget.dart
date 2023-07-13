@@ -48,8 +48,8 @@ class NotificationPageWidget extends StatelessWidget {
                             ),
                             child: Column(
                               children: [
-                                Row(
-                                  children: const [
+                                const Row(
+                                  children: [
                                     Text(
                                       "It is not mandatory to provide the image while you are making the notification.",
                                       style: TextStyle(
@@ -75,11 +75,11 @@ class NotificationPageWidget extends StatelessWidget {
                                                   height: 200,
                                                   width: 200,
                                                   color: Colors.white,
-                                                  child: Column(
+                                                  child: const Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: const [
+                                                    children: [
                                                       Icon(Icons.add),
                                                       Text("Add image"),
                                                     ],

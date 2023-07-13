@@ -30,7 +30,7 @@ class CategoryListItem extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 5,
+              flex: 4,
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -58,6 +58,13 @@ class CategoryListItem extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            const Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: Text(
+                '0',
               ),
             ),
             Flexible(
