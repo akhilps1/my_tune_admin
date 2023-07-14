@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
-import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
+import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_popup_menu_button.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_switch_button.dart';
 import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_network.dart';
+
+import '../../../serveice/number_converter.dart';
 
 class CategoryListItem extends StatelessWidget {
   const CategoryListItem({
@@ -29,8 +31,9 @@ class CategoryListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(
+            Flexible(
               flex: 4,
+              fit: FlexFit.tight,
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -60,11 +63,19 @@ class CategoryListItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Flexible(
+            Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: Text(
-                '0',
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  NumberFormatter.format(value: categoryModel.followers),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
+                  ),
+                ),
               ),
             ),
             Flexible(

@@ -12,14 +12,14 @@ import 'package:provider/provider.dart';
 
 import '../../general/constants.dart';
 
-class AddProductPageWidget extends StatefulWidget {
-  const AddProductPageWidget({super.key});
+class UploadsPageWidget extends StatefulWidget {
+  const UploadsPageWidget({super.key});
 
   @override
-  State<AddProductPageWidget> createState() => _AddProductPageWidgetState();
+  State<UploadsPageWidget> createState() => _UploadsPageWidgetState();
 }
 
-class _AddProductPageWidgetState extends State<AddProductPageWidget> {
+class _UploadsPageWidgetState extends State<UploadsPageWidget> {
   TextEditingController controller = SearchController();
 
   @override
@@ -123,7 +123,7 @@ class _AddProductPageWidgetState extends State<AddProductPageWidget> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    'Ctaegory',
+                                    'Ctaegories',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,

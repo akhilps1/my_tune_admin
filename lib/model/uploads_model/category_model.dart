@@ -8,6 +8,7 @@ class CategoryModel {
   bool visibility;
   String categoryName;
   String imageUrl;
+  final num followers;
   final Timestamp timestamp;
   final List keywords;
   CategoryModel({
@@ -16,6 +17,7 @@ class CategoryModel {
     required this.imageUrl,
     required this.timestamp,
     required this.keywords,
+    required this.followers,
     this.id,
   });
 
@@ -26,6 +28,7 @@ class CategoryModel {
       'imageUrl': imageUrl,
       'timestamp': timestamp,
       'keywords': keywords,
+      'followers': followers,
     };
   }
 
@@ -34,6 +37,7 @@ class CategoryModel {
     Map<String, dynamic> map = data.data();
     return CategoryModel(
       id: data.id,
+      followers: map['followers'] as num,
       visibility: map['visibility'] as bool,
       categoryName: map['categoryName'] as String,
       imageUrl: map['imageUrl'] as String,

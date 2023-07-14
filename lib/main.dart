@@ -7,20 +7,19 @@ import 'package:my_tune_admin/provider/products_page_provider/products_page_prov
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
 import 'package:my_tune_admin/screens/admn_screen.dart';
-import 'package:my_tune_admin/serveice/number_converter.dart';
-
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyBjkOVxfJtmhImKiPkWypKm6WaCnzzds9g",
-          authDomain: "my-tune-admin.firebaseapp.com",
-          projectId: "my-tune-admin",
-          storageBucket: "my-tune-admin.appspot.com",
-          messagingSenderId: "425408728029",
-          appId: "1:425408728029:web:46a57dde111b7c9bdfc434"));
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyBjkOVxfJtmhImKiPkWypKm6WaCnzzds9g",
+        authDomain: "my-tune-admin.firebaseapp.com",
+        projectId: "my-tune-admin",
+        storageBucket: "my-tune-admin.appspot.com",
+        messagingSenderId: "425408728029",
+        appId: "1:425408728029:web:46a57dde111b7c9bdfc434"),
+  );
 
   runApp(
     const MyApp(),

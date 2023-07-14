@@ -10,7 +10,7 @@ import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/failures/main_failures.dart';
 import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 
-import '../../model/uploads_page_model/category_model.dart';
+import '../../model/uploads_model/category_model.dart';
 import '../../serveice/custom_toast.dart';
 
 class UploadsPageProvider extends ChangeNotifier {
@@ -75,13 +75,13 @@ class UploadsPageProvider extends ChangeNotifier {
       collectionReference.doc(id).set(categoryModel.toMap());
 
       categories.add(CategoryModel(
-        id: id,
-        visibility: categoryModel.visibility,
-        categoryName: categoryModel.categoryName,
-        imageUrl: categoryModel.imageUrl,
-        timestamp: categoryModel.timestamp,
-        keywords: categoryModel.keywords,
-      ));
+          id: id,
+          visibility: categoryModel.visibility,
+          categoryName: categoryModel.categoryName,
+          imageUrl: categoryModel.imageUrl,
+          timestamp: categoryModel.timestamp,
+          keywords: categoryModel.keywords,
+          followers: categoryModel.followers));
 
       isLoading = false;
       notifyListeners();
@@ -158,12 +158,12 @@ class UploadsPageProvider extends ChangeNotifier {
     required bool value,
   }) async {
     final data = CategoryModel(
-      visibility: value,
-      categoryName: categoryModel.categoryName,
-      imageUrl: categoryModel.imageUrl,
-      timestamp: categoryModel.timestamp,
-      keywords: categoryModel.keywords,
-    );
+        visibility: value,
+        categoryName: categoryModel.categoryName,
+        imageUrl: categoryModel.imageUrl,
+        timestamp: categoryModel.timestamp,
+        keywords: categoryModel.keywords,
+        followers: categoryModel.followers);
 
     for (var element in categories) {
       if (element.id == categoryModel.id) {

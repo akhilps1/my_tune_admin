@@ -9,7 +9,7 @@ import '../widgets/users_page/users_page_widget.dart';
 
 const List<Widget> pages = [
   BannerListPageWidget(),
-  AddProductPageWidget(),
+  UploadsPageWidget(),
   UserPageWidget(),
   TrendingPageWidget(),
   ReleasePageWidget(),
@@ -23,5 +23,11 @@ const kSizedBoxH10 = SizedBox(
   height: 10,
 );
 
+const kSizedBoxH5 = SizedBox(
+  height: 5,
+);
+const kSizedBoxW5 = SizedBox(
+  width: 5,
+);
 // ignore: constant_identifier_names
 

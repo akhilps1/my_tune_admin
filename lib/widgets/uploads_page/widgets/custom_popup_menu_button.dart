@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
+import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/widgets/uploads_page/widgets/edit_category_dialog_box.dart';
 import 'package:provider/provider.dart';

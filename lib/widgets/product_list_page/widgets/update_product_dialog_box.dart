@@ -1,46 +1,32 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:my_tune_admin/general/keywords.dart';
-import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
+import 'package:provider/provider.dart';
 
 import '../../../general/constants.dart';
-import '../../banner_list_page/widgets/custom_catched_network.dart';
 import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
 
-class EditCategoryDialogBox extends StatefulWidget {
-  const EditCategoryDialogBox({
-    Key? key,
-    required this.categoryModel,
-  }) : super(key: key);
-
-  final CategoryModel categoryModel;
+class UpdateProductDialogBox extends StatefulWidget {
+  const UpdateProductDialogBox({super.key});
 
   @override
-  State<EditCategoryDialogBox> createState() => _EditCategoryDialogBoxState();
+  State<UpdateProductDialogBox> createState() => _UpdateProductDialogBoxState();
 }
 
-class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
+class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
   // bool isnormal = true;
   Uint8List? image;
   bool isloading = false;
 
-  TextEditingController controller = TextEditingController();
-
-  @override
-  void initState() {
-    controller.text = widget.categoryModel.categoryName;
-    super.initState();
-  }
+  TextEditingController titleController = TextEditingController();
+  TextEditingController castController = TextEditingController();
+  TextEditingController descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +41,43 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
             child: SizedBox(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 8, left: 10, right: 10, bottom: 10),
+                  left: 10,
+                  right: 10,
+                  bottom: 5,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     children: [
-                      const Text(
-                        'Update Category',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 350,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            const Text(
+                              'Edit Video Details',
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       kSizedBoxH10,
                       SizedBox(
                         height: 170,
-                        width: 300,
+                        width: 350,
                         child: InkWell(
                           onTap: () async {
                             if (isloading == false) {
@@ -85,9 +92,14 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                           child: Card(
                               shadowColor: Colors.black,
                               elevation: 2,
-                              child: image == null && isloading == false
-                                  ? CustomCatchedNetworkImage(
-                                      url: widget.categoryModel.imageUrl)
+                              child: image == null
+                                  ? Center(
+                                      child: isloading == false
+                                          ? const Icon(
+                                              Icons.add,
+                                            )
+                                          : const CupertinoActivityIndicator(),
+                                    )
                                   : InkWell(
                                       onTap: () async {
                                         await state.pickImage();
@@ -100,7 +112,7 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                                           ? CustomMemoryImageWidget(
                                               image: image!,
                                               height: 170,
-                                              width: 300,
+                                              width: 350,
                                             )
                                           : const Center(
                                               child:
@@ -111,11 +123,11 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                       ),
                       kSizedBoxH10,
                       SizedBox(
-                        width: 300,
+                        width: 350,
                         child: TextFormField(
-                          controller: controller,
+                          controller: titleController,
                           decoration: const InputDecoration(
-                            hintText: 'Enter Category Name',
+                            hintText: 'Enter video title',
                             border: OutlineInputBorder(),
                             errorBorder: OutlineInputBorder(),
                           ),
@@ -123,42 +135,45 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                       ),
                       kSizedBoxH10,
                       SizedBox(
-                        width: 300,
+                        width: 350,
+                        child: TextFormField(
+                          controller: castController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter cast and crew',
+                            border: OutlineInputBorder(),
+                            errorBorder: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      kSizedBoxH10,
+                      SizedBox(
+                        width: 350,
+                        child: TextFormField(
+                          controller: descController,
+                          maxLines: 4,
+                          scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                          decoration: const InputDecoration(
+                            hintText: 'Enter video description...',
+                            border: OutlineInputBorder(),
+                            errorBorder: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      kSizedBoxH10,
+                      SizedBox(
+                        width: 350,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black87,
                             padding: const EdgeInsets.symmetric(vertical: 15),
                           ),
                           onPressed: () async {
-                            // if (image == null) {
-                            //   CustomToast.errorToast('Please select an image');
-                            //   return;
-                            // }
-                            if (controller.text.isEmpty) {
-                              CustomToast.errorToast(
-                                  'Please add category name');
-                              return;
-                            }
-
-                            final CategoryModel categoryModel = CategoryModel(
-                              id: widget.categoryModel.id,
-                              visibility: true,
-                              categoryName: controller.text,
-                              imageUrl:
-                                  state.url ?? widget.categoryModel.imageUrl,
-                              timestamp: Timestamp.now(),
-                              keywords: getKeywords(controller.text),
-                              followers: widget.categoryModel.followers,
-                            );
-
-                            await state.updateCategory(
-                                categoryModel: categoryModel);
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },
                           child: state.isLoading == false
                               ? const Text(
-                                  'Update Category',
+                                  'Update',
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600),
@@ -173,24 +188,6 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                 ),
               ),
             ),
-          ),
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.black38,
-            child: IconButton(
-                color: Colors.white,
-                padding: EdgeInsets.zero,
-                style: IconButton.styleFrom(
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () async {
-                  // ignore: use_build_context_synchronously
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.close,
-                  size: 20,
-                )),
           ),
           const Spacer()
         ],

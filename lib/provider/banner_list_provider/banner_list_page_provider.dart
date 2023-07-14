@@ -6,7 +6,7 @@ import 'package:filesize/filesize.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:my_tune_admin/model/banner_list_model/banner_list_model.dart';
+import 'package:my_tune_admin/model/banner_model/banner_model.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
 
 class BannerListPageProvider extends ChangeNotifier {

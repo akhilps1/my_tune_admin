@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
-import 'package:my_tune_admin/model/banner_list_model/banner_list_model.dart';
+import 'package:my_tune_admin/model/banner_model/banner_model.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_popup.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';

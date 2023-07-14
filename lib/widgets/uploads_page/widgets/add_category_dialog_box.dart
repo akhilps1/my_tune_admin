@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:my_tune_admin/general/keywords.dart';
-import 'package:my_tune_admin/model/uploads_page_model/category_model.dart';
+import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
 import 'package:provider/provider.dart';
@@ -182,6 +182,7 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                               imageUrl: state.url!,
                               timestamp: Timestamp.now(),
                               keywords: getKeywords(controller.text),
+                              followers: 0,
                             );
 
                             await state.uploadCategoryDetails(
@@ -208,12 +209,13 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
             ),
           ),
           CircleAvatar(
-            radius: 33,
+            radius: 25,
             backgroundColor: Colors.black38,
             child: IconButton(
                 color: Colors.white,
+                padding: EdgeInsets.zero,
                 style: IconButton.styleFrom(
-                  hoverColor: Colors.grey,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () async {
                   // ignore: use_build_context_synchronously
@@ -221,7 +223,7 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
                 },
                 icon: const Icon(
                   Icons.close,
-                  size: 25,
+                  size: 20,
                 )),
           ),
           const Spacer()

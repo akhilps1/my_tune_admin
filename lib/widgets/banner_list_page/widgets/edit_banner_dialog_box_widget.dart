@@ -8,7 +8,7 @@ import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_ne
 import 'package:provider/provider.dart';
 
 import '../../../general/constants.dart';
-import '../../../model/banner_list_model/banner_list_model.dart';
+import '../../../model/banner_model/banner_model.dart';
 import '../../../provider/banner_list_provider/banner_list_page_provider.dart';
 import 'custom_memory_image_widget.dart';
 
@@ -25,13 +25,14 @@ class CustomEditBannerDialogBoxWidget extends StatelessWidget {
     return Consumer<BannerListPageProvider>(
       builder: (context, state, _) => Column(
         children: [
+          const Spacer(),
           Dialog(
             alignment: AlignmentDirectional.center,
 
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18)), //this right here
             child: SizedBox(
-              height: 365,
+              // height: 365,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 8, left: 10, right: 10, bottom: 10),
@@ -131,12 +132,13 @@ class CustomEditBannerDialogBoxWidget extends StatelessWidget {
             ),
           ),
           CircleAvatar(
-            radius: 33,
+            radius: 25,
             backgroundColor: Colors.black38,
             child: IconButton(
                 color: Colors.white,
+                padding: EdgeInsets.zero,
                 style: IconButton.styleFrom(
-                  hoverColor: Colors.grey,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {
                   urlController.text = '';
@@ -145,9 +147,10 @@ class CustomEditBannerDialogBoxWidget extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.close,
-                  size: 25,
+                  size: 20,
                 )),
-          )
+          ),
+          const Spacer(),
         ],
       ),
     );

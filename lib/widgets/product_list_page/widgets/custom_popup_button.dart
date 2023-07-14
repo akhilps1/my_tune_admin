@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/widgets/product_list_page/widgets/update_product_dialog_box.dart';
 
 import '../../../general/constants.dart';
 import '../../../serveice/custom_popup.dart';
@@ -24,6 +25,7 @@ class CustomPopupButton extends StatelessWidget {
             content: '',
             buttonText: 'Yes',
             onPressed: () async {
+              await showDialogMeassage(context: context);
               // ignore: use_build_context_synchronously
               Navigator.pop(context);
             },
@@ -71,5 +73,18 @@ class CustomPopupButton extends StatelessWidget {
         ];
       }),
     );
+  }
+
+  Future showDialogMeassage({
+    required BuildContext context,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const Material(
+            type: MaterialType.transparency,
+            child: UpdateProductDialogBox(),
+          );
+        });
   }
 }
