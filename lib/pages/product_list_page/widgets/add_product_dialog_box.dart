@@ -1,9 +1,13 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/general/keywords.dart';
+import 'package:my_tune_admin/model/product_model/product_model.dart';
+import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -28,13 +32,13 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
   bool isloading = false;
 
   TextEditingController titleController = TextEditingController();
-  TextEditingController castController = TextEditingController();
+
   TextEditingController descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductPageProvider>(
-      builder: (context, state, _) => Column(
+    return Consumer2<ProductPageProvider, CategorySearchProvider>(
+      builder: (context, state, state1, _) => Column(
         children: [
           Dialog(
             alignment: AlignmentDirectional.center,
@@ -204,6 +208,42 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                             padding: const EdgeInsets.symmetric(vertical: 4),
                           ),
                           onPressed: () async {
+                            if (titleController.text.isEmpty) {
+                              CustomToast.errorToast('Title cannot be empty');
+                              return;
+                            }
+                            if (descController.text.isEmpty) {
+                              CustomToast.errorToast(
+                                  'Descripton cannot be empty');
+                              return;
+                            }
+                            if (state1.categoriesTemp.isEmpty) {
+                              CustomToast.errorToast(
+                                  'Craft and crew cannot be empty');
+                              return;
+                            }
+                            if (state.url == null) {
+                              CustomToast.errorToast('Select image');
+                              return;
+                            }
+
+                            final ProductModel data = ProductModel(
+                              categoryId: state.categoryId!,
+                              title: titleController.text,
+                              description: descController.text,
+                              imageUrl: state.url!,
+                              likes: 0,
+                              views: 0,
+                              craftAndCrew: state1.categoriesTemp,
+                              visibility: true,
+                              keywords: getKeywords(
+                                titleController.text,
+                              ),
+                              timestamp: Timestamp.now(),
+                            );
+
+                            await state.uploadProductDetails(
+                                productModel: data);
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },

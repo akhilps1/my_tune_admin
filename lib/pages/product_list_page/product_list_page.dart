@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
-import 'package:my_tune_admin/pages/product_list_page/widgets/custom_popup_button.dart';
-import 'package:my_tune_admin/pages/product_list_page/widgets/custom_text_form_field.dart';
+
 import 'package:my_tune_admin/pages/product_list_page/widgets/product_list_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../general/constants.dart';
-import '../uploads_page/widgets/category_list_item.dart';
+
 import '../users_page/widgets/custom_search_field.dart';
 import 'widgets/add_product_dialog_box.dart';
 
@@ -191,27 +190,27 @@ class ProductListPage extends StatelessWidget {
                           ),
                           state.categories.isNotEmpty
                               ? SliverList.builder(
-                                  itemCount: state.categories.length,
+                                  itemCount: state1.products.length,
                                   itemBuilder: (context, index) {
-                                    final category = state.categories[index];
+                                    final product = state1.products[index];
                                     return InkWell(
                                         onTap: () {
                                           state.showCategories(
                                             value: false,
-                                            categoryId: category.id,
-                                            name: category.categoryName,
+                                            categoryId: product.id,
+                                            name: product.title,
                                           );
                                         },
-                                        child: ProductListItem());
+                                        child: const ProductListItem());
                                   })
                               : SliverFillRemaining(
-                                  hasScrollBody: false,
                                   child: Container(
+                                    height: 300,
                                     color: Colors.white,
                                     child: Center(
                                       child: state.isLoading == false
                                           ? const Text(
-                                              'Categories is empty!',
+                                              'Videos is empty!',
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,

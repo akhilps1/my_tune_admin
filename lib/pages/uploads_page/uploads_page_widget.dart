@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
+import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/pages/product_list_page/product_list_page.dart';
 import 'package:my_tune_admin/pages/uploads_page/widgets/add_category_dialog_box.dart';
@@ -198,11 +199,21 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                                           final category =
                                               state.categories[index];
                                           return InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               state.showCategories(
                                                 value: false,
                                                 categoryId: category.id,
                                                 name: category.categoryName,
+                                              );
+
+                                              await Provider.of<
+                                                  ProductPageProvider>(
+                                                context,
+                                                listen: false,
+                                              ).getProductsByLimit(
+                                                productState:
+                                                    GetProductState.normal,
+                                                id: category.id!,
                                               );
 
                                               log('categoryId: ${category.id}');

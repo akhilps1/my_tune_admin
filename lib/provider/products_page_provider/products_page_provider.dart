@@ -11,7 +11,6 @@ import 'package:my_tune_admin/failures/main_failures.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 
-import '../../model/uploads_model/category_model.dart';
 import '../../serveice/custom_toast.dart';
 
 class ProductPageProvider extends ChangeNotifier {
@@ -25,11 +24,10 @@ class ProductPageProvider extends ChangeNotifier {
 
   bool show = true;
 
-  String? categoryId, categoryName;
+  String? categoryId;
 
-  GetCategoryState state = GetCategoryState.normal;
+  GetProductState state = GetProductState.normal;
 
-  List<CategoryModel> categories = [];
   List<ProductModel> products = [];
 
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
@@ -65,26 +63,26 @@ class ProductPageProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> uploadCategoryDetails(
-      {required CategoryModel categoryModel}) async {
+  Future<void> uploadProductDetails(
+      {required ProductModel productModel}) async {
     isLoading = true;
     notifyListeners();
+
+    // final List<Map<String, dynamic>> categories =
+    //     productModel.craftAndCrew.map((e) => e.toMap()).toList();
 
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('products');
     try {
       String id = collectionReference.doc().id;
       log(id.toString());
-      collectionReference.doc(id).set(categoryModel.toMap());
+      collectionReference.doc(id).set(
+            productModel.toMap(),
+          );
 
-      categories.add(CategoryModel(
-          id: id,
-          visibility: categoryModel.visibility,
-          categoryName: categoryModel.categoryName,
-          imageUrl: categoryModel.imageUrl,
-          timestamp: categoryModel.timestamp,
-          keywords: categoryModel.keywords,
-          followers: categoryModel.followers));
+      products.add(
+        productModel.copyWith(id: id),
+      );
 
       isLoading = false;
       notifyListeners();
@@ -92,17 +90,20 @@ class ProductPageProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       CustomToast.errorToast('No internet connection');
-    } catch (_) {
+    } catch (e) {
+      log(e.toString());
       isLoading = false;
       notifyListeners();
       CustomToast.errorToast('Error');
     }
   }
 
-  Future<void> getCategoriesByLimit({
-    required GetCategoryState categoryState,
+  Future<void> getProductsByLimit({
+    required GetProductState productState,
+    required String id,
   }) async {
-    state = categoryState;
+    categoryId = id;
+    state = productState;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
 
     if (lastDoc == null) {
@@ -117,11 +118,19 @@ class ProductPageProvider extends ChangeNotifier {
           ? await FirebaseFirestore.instance
               .collection('products')
               .orderBy('timestamp', descending: true)
+              .where(
+                'categoryId',
+                isEqualTo: id,
+              )
               .limit(7)
               .get()
           : await FirebaseFirestore.instance
               .collection('products')
               .orderBy('timestamp', descending: true)
+              .where(
+                'categoryId',
+                isEqualTo: id,
+              )
               .startAfterDocument(lastDoc!)
               .limit(4)
               .get();
@@ -134,9 +143,9 @@ class ProductPageProvider extends ChangeNotifier {
         isLoading = false;
       }
 
-      categories.addAll(
+      products.addAll(
         refreshedClass.docs.map((e) {
-          return CategoryModel.fromFireStore(e);
+          return ProductModel.fromFireStore(e);
         }),
       );
       // log(categories.toString());
@@ -150,46 +159,46 @@ class ProductPageProvider extends ChangeNotifier {
       isLoading = false;
       isDataEmpty = true;
       showCircularIndicater = false;
-      log(e.toString());
+      print(e.toString());
       CustomToast.normalToast('Nothing to show');
       notifyListeners();
     }
   }
 
-  Future<void> changeCategoryVisibility({
-    required CategoryModel categoryModel,
+  Future<void> changeProductVisibility({
+    required ProductModel productModel,
     required bool value,
   }) async {
-    final data = CategoryModel(
-        visibility: value,
-        categoryName: categoryModel.categoryName,
-        imageUrl: categoryModel.imageUrl,
-        timestamp: categoryModel.timestamp,
-        keywords: categoryModel.keywords,
-        followers: categoryModel.followers);
+    final data = productModel.copyWith(visibility: value);
 
-    for (var element in categories) {
-      if (element.id == categoryModel.id) {
-        element.visibility = value;
+    for (ProductModel element in products) {
+      if (element.id == productModel.id) {
+        element.copyWith(visibility: value);
         notifyListeners();
       }
     }
 
     await FirebaseFirestore.instance
         .collection('products')
-        .doc(categoryModel.id)
+        .doc(productModel.id)
         .update(
           data.toMap(),
         );
   }
 
-  Future<void> updateCategory({required CategoryModel categoryModel}) async {
+  Future<void> updateCategory({
+    required ProductModel productModel,
+  }) async {
     isLoading = true;
 
-    for (var element in categories) {
-      if (element.id == categoryModel.id) {
-        element.imageUrl = categoryModel.imageUrl;
-        element.categoryName = categoryModel.categoryName;
+    for (var element in products) {
+      if (element.id == productModel.id) {
+        element.copyWith(
+          craftAndCrew: productModel.craftAndCrew,
+          imageUrl: productModel.imageUrl,
+          description: productModel.description,
+          title: productModel.title,
+        );
 
         notifyListeners();
       }
@@ -197,39 +206,37 @@ class ProductPageProvider extends ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection('products')
-        .doc(categoryModel.id)
+        .doc(productModel.id)
         .update(
-          categoryModel.toMap(),
+          productModel.toMap(),
         );
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> deleteCategory({required CategoryModel categoryModel}) async {
-    log(categoryModel.id.toString());
-
+  Future<void> deleteCategory({required ProductModel productModel}) async {
     await FirebaseFirestore.instance
         .collection('products')
-        .doc(categoryModel.id)
+        .doc(productModel.id)
         .delete();
 
-    categories = categories
+    products = products
         .where(
-          (element) => element.id != categoryModel.id,
+          (element) => element.id != productModel.id,
         )
         .toList();
     notifyListeners();
   }
 
   Future<void> searhCategory({
-    required String categoryName,
-    required GetCategoryState categoryState,
+    required String productName,
+    required GetProductState getProductState,
   }) async {
-    state = categoryState;
+    state = getProductState;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
 
     if (lastDoc == null) {
-      categories.clear();
+      products.clear();
       loadDataFromFirebase = true;
       lastDoc = null;
     }
@@ -244,8 +251,12 @@ class ProductPageProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
+                'categoryId',
+                isEqualTo: categoryId,
+              )
+              .where(
                 'keywords',
-                arrayContains: categoryName,
+                arrayContains: productName,
               )
               .limit(7)
               .get()
@@ -253,8 +264,12 @@ class ProductPageProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
+                'categoryId',
+                isEqualTo: categoryId,
+              )
+              .where(
                 'keywords',
-                arrayContains: categoryName,
+                arrayContains: productName,
               )
               .startAfterDocument(lastDoc!)
               .limit(4)
@@ -267,12 +282,12 @@ class ProductPageProvider extends ChangeNotifier {
       }
       log('document: ${refreshedClass.docs.toString()}');
 
-      categories.addAll(
+      products.addAll(
         refreshedClass.docs.map((e) {
-          return CategoryModel.fromFireStore(e);
+          return ProductModel.fromFireStore(e);
         }),
       );
-      log('list lenth: ${categories.length}');
+
       loadDataFromFirebase = false;
       showCircularIndicater = false;
       notifyListeners();
@@ -289,17 +304,6 @@ class ProductPageProvider extends ChangeNotifier {
     loadDataFromFirebase = false;
     isLoading = false;
     showCircularIndicater = false;
-  }
-
-  void showCategories({
-    required bool value,
-    required String? categoryId,
-    required String? name,
-  }) {
-    show = value;
-    categoryId = categoryId;
-    categoryName = name;
-    notifyListeners();
   }
 
   void clearDoc() {

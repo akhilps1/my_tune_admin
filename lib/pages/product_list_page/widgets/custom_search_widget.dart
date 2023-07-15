@@ -151,7 +151,13 @@ class CustomSearchWidget extends StatelessWidget {
                                       ),
                                       const Spacer(),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          state2.addCategoryToTemp(
+                                            category: category,
+                                          );
+                                          state2.removeCategory(
+                                              category: category);
+                                        },
                                         icon: const Icon(Icons.add),
                                       ),
                                       kSizedBoxW10,

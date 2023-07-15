@@ -46,5 +46,16 @@ class CategoryModel {
     );
   }
 
+  factory CategoryModel.fromMap(Map<String, dynamic> map) {
+    print(map);
+    return CategoryModel(
+      followers: map['followers'] as num,
+      visibility: map['visibility'] as bool,
+      categoryName: map['categoryName'] as String,
+      imageUrl: map['imageUrl'] as String,
+      timestamp: map['timestamp'] as Timestamp,
+      keywords: map['keywords'] as List,
+    );
+  }
   String toJson() => json.encode(toMap());
 }

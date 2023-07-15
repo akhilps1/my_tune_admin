@@ -14,6 +14,8 @@ class CategorySearchProvider extends ChangeNotifier {
   bool showCircularIndicater = false;
 
   List<CategoryModel> categories = [];
+  List<CategoryModel> categoriesTemp = [];
+
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
   Future<void> searhCategory({
@@ -75,6 +77,30 @@ class CategorySearchProvider extends ChangeNotifier {
     }
   }
 
+  void addCategoryToTemp({required CategoryModel category}) {
+    CustomToast.successToast('${category.categoryName} added');
+    categoriesTemp.add(category);
+    notifyListeners();
+  }
+
+  void removeCategory({required CategoryModel category}) {
+    categories = categories
+        .where(
+          (element) => element.id != category.id,
+        )
+        .toList();
+    notifyListeners();
+  }
+
+  void removeCategoryFromTemp({required CategoryModel category}) {
+    categoriesTemp = categoriesTemp
+        .where(
+          (element) => element.id != category.id,
+        )
+        .toList();
+    notifyListeners();
+  }
+
   void _cleardata() {
     isDataEmpty = true;
     loadDataFromFirebase = false;
@@ -83,9 +109,8 @@ class CategorySearchProvider extends ChangeNotifier {
   }
 
   void clearDoc() {
-    lastDoc = null;
     categories.clear();
-    log(lastDoc.toString());
+    lastDoc = null;
     notifyListeners();
   }
 }
