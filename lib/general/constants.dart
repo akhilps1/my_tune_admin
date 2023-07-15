@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/banner_list_page/banner_list_page_widget.dart';
-import '../widgets/uploads_page/uploads_page_widget.dart';
-import '../widgets/notification_page/notification_page_widget.dart';
-import '../widgets/release_page/release_page_widget.dart';
-import '../widgets/trending_page/trending_page_widget.dart';
-import '../widgets/users_page/users_page_widget.dart';
+import '../pages/banner_list_page/banner_list_page_widget.dart';
+import '../pages/uploads_page/uploads_page_widget.dart';
+import '../pages/notification_page/notification_page_widget.dart';
+import '../pages/release_page/release_page_widget.dart';
+import '../pages/trending_page/trending_page_widget.dart';
+import '../pages/users_page/users_page_widget.dart';
 
 const List<Widget> pages = [
   BannerListPageWidget(),

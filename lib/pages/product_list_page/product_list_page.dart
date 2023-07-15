@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
-import 'package:my_tune_admin/widgets/product_list_page/widgets/custom_popup_button.dart';
-import 'package:my_tune_admin/widgets/product_list_page/widgets/custom_text_form_field.dart';
-import 'package:my_tune_admin/widgets/product_list_page/widgets/product_list_item.dart';
+import 'package:my_tune_admin/pages/product_list_page/widgets/custom_popup_button.dart';
+import 'package:my_tune_admin/pages/product_list_page/widgets/custom_text_form_field.dart';
+import 'package:my_tune_admin/pages/product_list_page/widgets/product_list_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../general/constants.dart';

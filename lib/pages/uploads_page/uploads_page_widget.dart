@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
-import 'package:my_tune_admin/widgets/product_list_page/product_list_page.dart';
-import 'package:my_tune_admin/widgets/uploads_page/widgets/add_category_dialog_box.dart';
-import 'package:my_tune_admin/widgets/uploads_page/widgets/category_list_item.dart';
-import 'package:my_tune_admin/widgets/users_page/widgets/custom_search_field.dart';
+import 'package:my_tune_admin/pages/product_list_page/product_list_page.dart';
+import 'package:my_tune_admin/pages/uploads_page/widgets/add_category_dialog_box.dart';
+import 'package:my_tune_admin/pages/uploads_page/widgets/category_list_item.dart';
+import 'package:my_tune_admin/pages/users_page/widgets/custom_search_field.dart';
 import 'package:provider/provider.dart';
 
 import '../../general/constants.dart';

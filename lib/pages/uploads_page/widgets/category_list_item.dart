@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
 import 'package:my_tune_admin/model/uploads_model/category_model.dart';
-import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_popup_menu_button.dart';
-import 'package:my_tune_admin/widgets/uploads_page/widgets/custom_switch_button.dart';
-import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_network.dart';
+import 'package:my_tune_admin/pages/uploads_page/widgets/custom_popup_menu_button.dart';
+import 'package:my_tune_admin/pages/uploads_page/widgets/custom_switch_button.dart';
+import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 
 import '../../../serveice/number_converter.dart';
 

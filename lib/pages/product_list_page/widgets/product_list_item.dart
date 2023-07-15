@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
 
-import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_catched_network.dart';
+import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 
 import '../../../serveice/number_converter.dart';
 import 'custom_popup_button.dart';

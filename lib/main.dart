@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/notification_provider/notification_provider.dart';
+import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ProductPageProvider>(
           create: (_) => ProductPageProvider(),
         ),
+        ChangeNotifierProvider<CategorySearchProvider>(
+            create: (_) => CategorySearchProvider())
       ],
       child: MaterialApp(
         title: "MY Tune Admin",

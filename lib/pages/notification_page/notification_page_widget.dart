@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_provider.dart';
 import 'package:my_tune_admin/provider/notification_provider/notification_provider.dart';
 import 'package:my_tune_admin/serveice/custom_toast.dart';
-import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_memory_image_widget.dart';
-import 'package:my_tune_admin/widgets/notification_page/widgets/custom_textfield_widget.dart';
+import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_memory_image_widget.dart';
+import 'package:my_tune_admin/pages/notification_page/widgets/custom_textfield_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotificationPageWidget extends StatelessWidget {

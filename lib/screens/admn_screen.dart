@@ -2,7 +2,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
 
-import '../widgets/side_navigation_page/side_navigation_widget.dart';
+import '../pages/side_navigation_page/side_navigation_widget.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});

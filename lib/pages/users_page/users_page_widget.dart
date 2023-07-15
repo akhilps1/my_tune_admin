@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:my_tune_admin/enums/enums.dart';
 
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
-import 'package:my_tune_admin/widgets/users_page/widgets/custom_search_field.dart';
+import 'package:my_tune_admin/pages/users_page/widgets/custom_search_field.dart';
 import 'package:provider/provider.dart';
 import 'widgets/user_details_widget.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_tune_admin/widgets/product_list_page/widgets/update_product_dialog_box.dart';
+import 'package:my_tune_admin/pages/product_list_page/widgets/update_product_dialog_box.dart';
 
 import '../../../general/constants.dart';
 import '../../../serveice/custom_popup.dart';

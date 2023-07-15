@@ -3,22 +3,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_tune_admin/widgets/banner_list_page/widgets/custom_memory_image_widget.dart';
+import 'package:my_tune_admin/serveice/custom_toast.dart';
+import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 import 'package:provider/provider.dart';
 
 import '../../../general/constants.dart';
 import '../../../model/banner_model/banner_model.dart';
 import '../../../provider/banner_list_provider/banner_list_page_provider.dart';
-import '../../../serveice/custom_toast.dart';
+import 'custom_memory_image_widget.dart';
 
-class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
-  const CustomCreateBannerDialogBoxWidget({
-    Key? key,
-  }) : super(key: key);
+class CustomEditBannerDialogBoxWidget extends StatelessWidget {
+  const CustomEditBannerDialogBoxWidget({Key? key, required this.bannerModel})
+      : super(key: key);
+
+  final BannerModel bannerModel;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController urlController = TextEditingController();
+    TextEditingController urlController = TextEditingController();
+    urlController.text = bannerModel.videoUrl;
     return Consumer<BannerListPageProvider>(
       builder: (context, state, _) => Column(
         children: [
@@ -29,7 +32,7 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18)), //this right here
             child: SizedBox(
-              // height: 400,
+              // height: 365,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 8, left: 10, right: 10, bottom: 10),
@@ -49,18 +52,19 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
                         child: InkWell(
                           onTap: (() => state.pickImage()),
                           child: Card(
-                              shadowColor: Colors.black,
-                              elevation: 2,
-                              child: state.bytesFromPicker == null
-                                  ? const Center(child: Icon(Icons.add))
-                                  : InkWell(
-                                      onTap: () => state.pickImage(),
-                                      child: CustomMemoryImageWidget(
-                                        image: state.bytesFromPicker!,
-                                        height: 170,
-                                        width: 300,
-                                      ),
+                            shadowColor: Colors.black,
+                            elevation: 2,
+                            child: state.bytesFromPicker == null
+                                ? CustomCatchedNetworkImage(
+                                    url: bannerModel.imageUrl)
+                                : InkWell(
+                                    onTap: () => state.pickImage(),
+                                    child: CustomMemoryImageWidget(
+                                      image: state.bytesFromPicker!,
+                                      height: 170,
+                                      width: 300,
                                     )),
+                          ),
                         ),
                       ),
                       kSizedBoxH10,
@@ -92,13 +96,16 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
                                   'Please select a banner image');
                               return;
                             }
+
                             if (state.url != null) {
-                              final BannerModel bannerModel = BannerModel(
+                              await state.updateBanner(
+                                bannerModel: BannerModel(
+                                  id: bannerModel.id,
                                   imageUrl: state.url!,
                                   videoUrl: urlController.text,
-                                  timestamp: Timestamp.now());
-                              await state.uploadBannerDetails(
-                                  bannerModel: bannerModel);
+                                  timestamp: Timestamp.now(),
+                                ),
+                              );
                             }
 
                             urlController.text = '';
@@ -108,7 +115,7 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
                           },
                           child: state.isLoading == false
                               ? const Text(
-                                  'Add',
+                                  'Update',
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600),
@@ -134,8 +141,9 @@ class CustomCreateBannerDialogBoxWidget extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  urlController.text = '';
                   state.clearData();
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.close,

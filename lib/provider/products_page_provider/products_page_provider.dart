@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/failures/main_failures.dart';
+import 'package:my_tune_admin/model/product_model/product_model.dart';
 import 'package:my_tune_admin/serveice/pick_image_serveice.dart';
 
 import '../../model/uploads_model/category_model.dart';
@@ -29,6 +30,8 @@ class ProductPageProvider extends ChangeNotifier {
   GetCategoryState state = GetCategoryState.normal;
 
   List<CategoryModel> categories = [];
+  List<ProductModel> products = [];
+
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
   Future<void> pickImage() async {
@@ -45,7 +48,7 @@ class ProductPageProvider extends ChangeNotifier {
 
       Reference storageRef = storage
           .ref()
-          .child('categories')
+          .child('products')
           .child('${Timestamp.now().microsecondsSinceEpoch}webp_image.jpeg');
 
       final value = await storageRef.putData(
@@ -68,7 +71,7 @@ class ProductPageProvider extends ChangeNotifier {
     notifyListeners();
 
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('categories');
+        FirebaseFirestore.instance.collection('products');
     try {
       String id = collectionReference.doc().id;
       log(id.toString());
@@ -112,12 +115,12 @@ class ProductPageProvider extends ChangeNotifier {
     try {
       refreshedClass = lastDoc == null
           ? await FirebaseFirestore.instance
-              .collection('categories')
+              .collection('products')
               .orderBy('timestamp', descending: true)
               .limit(7)
               .get()
           : await FirebaseFirestore.instance
-              .collection('categories')
+              .collection('products')
               .orderBy('timestamp', descending: true)
               .startAfterDocument(lastDoc!)
               .limit(4)
@@ -173,7 +176,7 @@ class ProductPageProvider extends ChangeNotifier {
     }
 
     await FirebaseFirestore.instance
-        .collection('categories')
+        .collection('products')
         .doc(categoryModel.id)
         .update(
           data.toMap(),
@@ -193,7 +196,7 @@ class ProductPageProvider extends ChangeNotifier {
     }
 
     await FirebaseFirestore.instance
-        .collection('categories')
+        .collection('products')
         .doc(categoryModel.id)
         .update(
           categoryModel.toMap(),
@@ -206,7 +209,7 @@ class ProductPageProvider extends ChangeNotifier {
     log(categoryModel.id.toString());
 
     await FirebaseFirestore.instance
-        .collection('categories')
+        .collection('products')
         .doc(categoryModel.id)
         .delete();
 
@@ -238,7 +241,7 @@ class ProductPageProvider extends ChangeNotifier {
     try {
       refreshedClass = lastDoc == null
           ? await FirebaseFirestore.instance
-              .collection('categories')
+              .collection('products')
               .orderBy('timestamp')
               .where(
                 'keywords',
@@ -247,7 +250,7 @@ class ProductPageProvider extends ChangeNotifier {
               .limit(7)
               .get()
           : await FirebaseFirestore.instance
-              .collection('categories')
+              .collection('products')
               .orderBy('timestamp')
               .where(
                 'keywords',
@@ -274,7 +277,7 @@ class ProductPageProvider extends ChangeNotifier {
       showCircularIndicater = false;
       notifyListeners();
     } catch (e) {
-      CustomToast.normalToast('Category not found');
+      CustomToast.normalToast('Product not found');
       _cleardata();
 
       notifyListeners();

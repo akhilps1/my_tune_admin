@@ -1,21 +1,17 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:my_tune_admin/general/keywords.dart';
-import 'package:my_tune_admin/model/uploads_model/category_model.dart';
-import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
-import 'package:my_tune_admin/serveice/custom_toast.dart';
-
+import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/uploads_page_provider/uploads_page_provider.dart';
+import '../../../serveice/custom_toast.dart';
 import '../../../general/constants.dart';
 import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
+
 import 'add_craft_and_crew.dart';
 import 'custom_search_widget.dart';
 
@@ -37,7 +33,7 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UploadsPageProvider>(
+    return Consumer<ProductPageProvider>(
       builder: (context, state, _) => Column(
         children: [
           Dialog(
@@ -237,12 +233,16 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
 
   void show(context) async {
     return await showDialog(
+      barrierDismissible: true,
       context: context,
-      builder: (context) => Material(child: const CustomSearchWidget()),
+      builder: (context) => const Material(
+        color: Colors.transparent,
+        child: CustomSearchWidget(),
+      ),
     );
   }
 
-  Future<void> upload({required UploadsPageProvider state}) async {
+  Future<void> upload({required ProductPageProvider state}) async {
     state.failureOrSuccess!.fold(
       (failure) {
         failure.maybeMap(
