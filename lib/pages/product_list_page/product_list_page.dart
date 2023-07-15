@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 
@@ -19,7 +20,7 @@ class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    TextEditingController titleController = TextEditingController();
+    TextEditingController searchController = TextEditingController();
 
     return Consumer2<UploadsPageProvider, ProductPageProvider>(
       builder: (context, state, state1, _) => Column(
@@ -28,6 +29,7 @@ class ProductListPage extends StatelessWidget {
             backgroundColor: Colors.white,
             leading: IconButton(
               onPressed: () {
+                state1.clearfetcedData();
                 state.showCategories(
                   value: true,
                   categoryId: null,
@@ -75,9 +77,24 @@ class ProductListPage extends StatelessWidget {
                   // width: size.width * 0.25,
                   child: CustomSearchField(
                     hint: 'Search Video',
-                    onFieldSubmitted: (value) async {},
-                    onPress: () async {},
-                    controller: titleController,
+                    onChanged: (value) {},
+                    onFieldSubmitted: (value) async {
+                      state1.clearfetcedData();
+                      await state1.searhProduct(
+                        productName: searchController.text,
+                        getProductState: GetProductState.search,
+                      );
+                    },
+                    onPress: () async {
+                      state1.clearfetcedData();
+                      searchController.clear();
+
+                      await state1.getProductsByLimit(
+                        productState: GetProductState.normal,
+                        id: state1.categoryId!,
+                      );
+                    },
+                    controller: searchController,
                   ),
                 ),
               ),
@@ -194,14 +211,17 @@ class ProductListPage extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     final product = state1.products[index];
                                     return InkWell(
-                                        onTap: () {
-                                          state.showCategories(
-                                            value: false,
-                                            categoryId: product.id,
-                                            name: product.title,
-                                          );
-                                        },
-                                        child: const ProductListItem());
+                                      onTap: () {
+                                        state.showCategories(
+                                          value: false,
+                                          categoryId: product.id,
+                                          name: product.title,
+                                        );
+                                      },
+                                      child: ProductListItem(
+                                        product: product,
+                                      ),
+                                    );
                                   })
                               : SliverFillRemaining(
                                   child: Container(

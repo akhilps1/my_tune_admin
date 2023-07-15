@@ -68,6 +68,7 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                         // width: size.width * 0.25,
                         child: CustomSearchField(
                           hint: 'Search Category',
+                          onChanged: (value) {},
                           onFieldSubmitted: (value) async {
                             state.clearDoc();
                             await state.searhCategory(

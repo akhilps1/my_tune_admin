@@ -159,7 +159,7 @@ class ProductPageProvider extends ChangeNotifier {
       isLoading = false;
       isDataEmpty = true;
       showCircularIndicater = false;
-      print(e.toString());
+      // print(e.toString());
       CustomToast.normalToast('Nothing to show');
       notifyListeners();
     }
@@ -169,11 +169,13 @@ class ProductPageProvider extends ChangeNotifier {
     required ProductModel productModel,
     required bool value,
   }) async {
-    final data = productModel.copyWith(visibility: value);
+    final data = productModel.copyWith(
+      visibility: value,
+    );
 
     for (ProductModel element in products) {
       if (element.id == productModel.id) {
-        element.copyWith(visibility: value);
+        element.visibility = value;
         notifyListeners();
       }
     }
@@ -214,7 +216,7 @@ class ProductPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteCategory({required ProductModel productModel}) async {
+  Future<void> deleteProduct({required ProductModel productModel}) async {
     await FirebaseFirestore.instance
         .collection('products')
         .doc(productModel.id)
@@ -228,7 +230,7 @@ class ProductPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searhCategory({
+  Future<void> searhProduct({
     required String productName,
     required GetProductState getProductState,
   }) async {
@@ -308,5 +310,11 @@ class ProductPageProvider extends ChangeNotifier {
 
   void clearDoc() {
     lastDoc = null;
+  }
+
+  void clearfetcedData() {
+    lastDoc = null;
+    products.clear();
+    notifyListeners();
   }
 }

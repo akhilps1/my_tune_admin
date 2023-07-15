@@ -43,7 +43,9 @@ class AddCraftAndCrew extends StatelessWidget {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              state.removeCategoryFromTemp(category: category);
+                              state.removeCategoryFromTemp(
+                                category: category,
+                              );
                             },
                             hoverColor: Colors.white.withOpacity(0.5),
                             child: Icon(

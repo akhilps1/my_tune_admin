@@ -9,6 +9,7 @@ class CustomSearchField extends StatelessWidget {
     required this.onPress,
     required this.controller,
     this.inputFormatters,
+    required this.onChanged,
   }) : super(key: key);
 
   final String hint;
@@ -18,6 +19,8 @@ class CustomSearchField extends StatelessWidget {
   final TextEditingController controller;
   final List<TextInputFormatter>? inputFormatters;
 
+  final Function(String) onChanged;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -26,6 +29,7 @@ class CustomSearchField extends StatelessWidget {
       inputFormatters: inputFormatters,
       textInputAction: TextInputAction.search,
       onFieldSubmitted: onFieldSubmitted,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hoverColor: Colors.blue[400]!.withOpacity(0.2),
         prefixIcon: const Icon(

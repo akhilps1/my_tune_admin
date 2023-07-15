@@ -46,6 +46,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                     child: Center(
                       child: CustomSearchField(
                         hint: 'Mobile Number',
+                        onChanged: (value) {},
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],

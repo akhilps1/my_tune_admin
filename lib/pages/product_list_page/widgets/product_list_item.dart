@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
+import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 
@@ -10,7 +11,10 @@ import 'custom_switch_button.dart';
 class ProductListItem extends StatelessWidget {
   const ProductListItem({
     super.key,
+    required this.product,
   });
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class ProductListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Flexible(
+            Flexible(
               flex: 4,
               fit: FlexFit.tight,
               child: Wrap(
@@ -40,11 +44,11 @@ class ProductListItem extends StatelessWidget {
                     height: 85,
                     width: 85,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
                       child: CustomCatchedNetworkImage(
-                        url: 'https://picsum.photos/id/237/536/354',
+                        url: product.imageUrl,
                       ),
                     ),
                   ),
@@ -54,10 +58,10 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 250,
                       child: Text(
-                        'Lorem Ipsum is simply dummy ',
+                        product.title,
                         maxLines: 1,
                         softWrap: true,
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -69,10 +73,14 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 300,
                       child: Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                        product.craftAndCrew
+                            .map((e) => e.categoryName)
+                            .toString()
+                            .replaceAll('(', '')
+                            .replaceAll(')', ''),
                         maxLines: 1,
                         softWrap: true,
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -84,10 +92,10 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 350,
                       child: Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                        product.description,
                         maxLines: 1,
                         softWrap: true,
-                        style: TextStyle(
+                        style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -106,7 +114,7 @@ class ProductListItem extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   NumberFormatter.format(
-                    value: 1000,
+                    value: product.likes,
                   ),
                   style: const TextStyle(
                     fontSize: 15,
@@ -119,12 +127,16 @@ class ProductListItem extends StatelessWidget {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: CustomSwitchButton(),
+              child: CustomSwitchButton(
+                product: product,
+              ),
             ),
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: CustomPopupButton(),
+              child: CustomPopupButton(
+                product: product,
+              ),
             )
           ],
         ),

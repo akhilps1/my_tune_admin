@@ -47,7 +47,6 @@ class CategoryModel {
   }
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
-    print(map);
     return CategoryModel(
       followers: map['followers'] as num,
       visibility: map['visibility'] as bool,
