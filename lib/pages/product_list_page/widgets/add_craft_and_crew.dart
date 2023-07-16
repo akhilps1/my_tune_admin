@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
 import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
-import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddCraftAndCrew extends StatelessWidget {
@@ -23,7 +22,8 @@ class AddCraftAndCrew extends StatelessWidget {
                   ),
                   itemCount: state.categoriesTemp.length,
                   itemBuilder: (context, index) {
-                    final CategoryModel category = state.categoriesTemp[index];
+                    final CategoryModel category =
+                        state.categoriesTemp.toList()[index];
                     return Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[100],

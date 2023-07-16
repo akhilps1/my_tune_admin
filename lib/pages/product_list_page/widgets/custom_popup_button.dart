@@ -1,13 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 import 'package:my_tune_admin/pages/product_list_page/widgets/update_product_dialog_box.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
-import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../general/constants.dart';
+import '../../../provider/products_page_provider/category_search_provider.dart';
 import '../../../serveice/custom_popup.dart';
 
 class CustomPopupButton extends StatelessWidget {
@@ -36,7 +38,10 @@ class CustomPopupButton extends StatelessWidget {
             content: '',
             buttonText: 'Yes',
             onPressed: () async {
-              await showDialogMeassage(context: context);
+              await showDialogMeassage(
+                context: context,
+                productModel: product,
+              );
               // ignore: use_build_context_synchronously
               Navigator.pop(context);
             },
@@ -90,9 +95,8 @@ class CustomPopupButton extends StatelessWidget {
     );
   }
 
-  Future showDialogMeassage({
-    required BuildContext context,
-  }) {
+  Future showDialogMeassage(
+      {required BuildContext context, required ProductModel productModel}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -100,7 +104,7 @@ class CustomPopupButton extends StatelessWidget {
             type: MaterialType.transparency,
             child: SingleChildScrollView(
               child: UpdateProductDialogBox(
-                productModel: product,
+                productModel: productModel,
               ),
             ),
           );

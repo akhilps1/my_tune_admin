@@ -79,6 +79,7 @@ class CategorySearchProvider extends ChangeNotifier {
 
   void addCategoryToTemp({required CategoryModel category}) {
     CustomToast.successToast('${category.categoryName} added');
+
     categoriesTemp.add(category);
     notifyListeners();
   }
@@ -108,8 +109,15 @@ class CategorySearchProvider extends ChangeNotifier {
     showCircularIndicater = false;
   }
 
+  setCategoryTemp(List<CategoryModel> categoryList) {
+    categoriesTemp = categoryList;
+
+    notifyListeners();
+  }
+
   void clearDoc() {
     categories.clear();
+    categoriesTemp.clear();
     lastDoc = null;
     notifyListeners();
   }

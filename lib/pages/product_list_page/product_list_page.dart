@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
@@ -205,18 +207,18 @@ class ProductListPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          state.categories.isNotEmpty
+                          state1.products.isNotEmpty
                               ? SliverList.builder(
                                   itemCount: state1.products.length,
                                   itemBuilder: (context, index) {
                                     final product = state1.products[index];
                                     return InkWell(
                                       onTap: () {
-                                        state.showCategories(
-                                          value: false,
-                                          categoryId: product.id,
-                                          name: product.title,
-                                        );
+                                        // state.showCategories(
+                                        //   value: false,
+                                        //   categoryId: product.id,
+                                        //   name: product.title,
+                                        // );
                                       },
                                       child: ProductListItem(
                                         product: product,
@@ -224,11 +226,11 @@ class ProductListPage extends StatelessWidget {
                                     );
                                   })
                               : SliverFillRemaining(
+                                  hasScrollBody: true,
                                   child: Container(
-                                    height: 300,
                                     color: Colors.white,
                                     child: Center(
-                                      child: state.isLoading == false
+                                      child: state1.isLoading == false
                                           ? const Text(
                                               'Videos is empty!',
                                               style: TextStyle(
@@ -241,12 +243,13 @@ class ProductListPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          state.isDataEmpty == false &&
-                                  state.categories.length >= 7
+                          state1.isDataEmpty == false &&
+                                  state1.products.length >= 7
                               ? SliverToBoxAdapter(
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
+                                      vertical: 20,
+                                    ),
                                     color: Colors.white,
                                     child: Center(
                                       child: MaterialButton(
@@ -254,8 +257,14 @@ class ProductListPage extends StatelessWidget {
                                         textColor: Colors.white,
                                         height: 50,
                                         minWidth: 200,
-                                        onPressed: () async {},
-                                        child: state.showCircularIndicater ==
+                                        onPressed: () async {
+                                          state1.getProductsByLimit(
+                                            productState:
+                                                GetProductState.normal,
+                                            id: state1.categoryId!,
+                                          );
+                                        },
+                                        child: state1.showCircularIndicater ==
                                                 false
                                             ? const Text('Show more')
                                             : const CupertinoActivityIndicator(),

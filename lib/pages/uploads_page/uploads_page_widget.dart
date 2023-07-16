@@ -225,7 +225,7 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                                           );
                                         })
                                     : SliverFillRemaining(
-                                        hasScrollBody: false,
+                                        fillOverscroll: true,
                                         child: Container(
                                           color: Colors.white,
                                           child: Center(

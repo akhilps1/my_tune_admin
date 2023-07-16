@@ -7,14 +7,14 @@ import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 
 class ProductModel {
   final String? id;
-  final String title;
-  final String description;
-  final String imageUrl;
+  String title;
+  String description;
+  String imageUrl;
   final int likes;
   final int views;
-  final List<CategoryModel> craftAndCrew;
+  List<CategoryModel> craftAndCrew;
   final String categoryId;
-  final List keywords;
+  List keywords;
   final Timestamp timestamp;
   bool visibility;
   ProductModel({

@@ -11,7 +11,6 @@ import 'package:my_tune_admin/provider/products_page_provider/category_search_pr
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../provider/uploads_page_provider/uploads_page_provider.dart';
 import '../../../serveice/custom_toast.dart';
 import '../../../general/constants.dart';
 import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
@@ -71,6 +70,7 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               alignment: Alignment.centerRight,
                               child: InkWell(
                                 onTap: () {
+                                  state1.clearDoc();
                                   Navigator.pop(context);
                                 },
                                 child: const Icon(

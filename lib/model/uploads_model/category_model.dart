@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class CategoryModel {
   final String? id;
@@ -23,6 +24,7 @@ class CategoryModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'visibility': visibility,
       'categoryName': categoryName,
       'imageUrl': imageUrl,
@@ -48,6 +50,7 @@ class CategoryModel {
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
+      id: map['id'] as String,
       followers: map['followers'] as num,
       visibility: map['visibility'] as bool,
       categoryName: map['categoryName'] as String,
@@ -57,4 +60,28 @@ class CategoryModel {
     );
   }
   String toJson() => json.encode(toMap());
+
+  @override
+  bool operator ==(covariant CategoryModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.visibility == visibility &&
+        other.categoryName == categoryName &&
+        other.imageUrl == imageUrl &&
+        other.followers == followers &&
+        other.timestamp == timestamp &&
+        listEquals(other.keywords, keywords);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        visibility.hashCode ^
+        categoryName.hashCode ^
+        imageUrl.hashCode ^
+        followers.hashCode ^
+        timestamp.hashCode ^
+        keywords.hashCode;
+  }
 }

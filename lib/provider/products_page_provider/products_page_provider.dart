@@ -75,7 +75,7 @@ class ProductPageProvider extends ChangeNotifier {
         FirebaseFirestore.instance.collection('products');
     try {
       String id = collectionReference.doc().id;
-      log(id.toString());
+      // log(id.toString());
       collectionReference.doc(id).set(
             productModel.toMap(),
           );
@@ -188,21 +188,17 @@ class ProductPageProvider extends ChangeNotifier {
         );
   }
 
-  Future<void> updateCategory({
+  Future<void> updateProductDetails({
     required ProductModel productModel,
   }) async {
     isLoading = true;
 
     for (var element in products) {
       if (element.id == productModel.id) {
-        element.copyWith(
-          craftAndCrew: productModel.craftAndCrew,
-          imageUrl: productModel.imageUrl,
-          description: productModel.description,
-          title: productModel.title,
-        );
-
-        notifyListeners();
+        element.craftAndCrew = productModel.craftAndCrew;
+        element.keywords = productModel.keywords;
+        element.description = productModel.description;
+        element.imageUrl = productModel.imageUrl;
       }
     }
 
@@ -212,22 +208,27 @@ class ProductPageProvider extends ChangeNotifier {
         .update(
           productModel.toMap(),
         );
+
     isLoading = false;
     notifyListeners();
   }
 
   Future<void> deleteProduct({required ProductModel productModel}) async {
-    await FirebaseFirestore.instance
-        .collection('products')
-        .doc(productModel.id)
-        .delete();
+    try {
+      await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productModel.id)
+          .delete();
 
-    products = products
-        .where(
-          (element) => element.id != productModel.id,
-        )
-        .toList();
-    notifyListeners();
+      products = products
+          .where(
+            (element) => element.id != productModel.id,
+          )
+          .toList();
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> searhProduct({

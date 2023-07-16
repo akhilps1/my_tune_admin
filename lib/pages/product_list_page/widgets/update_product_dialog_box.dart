@@ -42,13 +42,16 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
 
   @override
   void initState() {
-    Provider.of<CategorySearchProvider>(
-      context,
-      listen: false,
-    ).categoriesTemp = widget.productModel.craftAndCrew;
     titleController.text = widget.productModel.title;
     descController.text = widget.productModel.description;
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<CategorySearchProvider>(
+        context,
+        listen: false,
+      ).setCategoryTemp(
+        widget.productModel.craftAndCrew,
+      );
+    });
     super.initState();
   }
 
@@ -89,6 +92,8 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               child: InkWell(
                                 onTap: () {
                                   state.clearDoc();
+                                  // state1.clearDoc();
+
                                   Navigator.pop(context);
                                 },
                                 child: const Icon(
@@ -244,28 +249,25 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               );
                               return;
                             }
-                            if (state.url == null) {
-                              CustomToast.errorToast('Select image');
-                              return;
-                            }
 
                             final ProductModel data = ProductModel(
-                              categoryId: state.categoryId!,
+                              id: widget.productModel.id,
+                              categoryId: widget.productModel.categoryId,
                               title: titleController.text,
                               description: descController.text,
-                              imageUrl: state.url!,
-                              likes: 0,
-                              views: 0,
+                              imageUrl:
+                                  state.url ?? widget.productModel.imageUrl,
+                              likes: widget.productModel.likes,
+                              views: widget.productModel.views,
                               craftAndCrew: state1.categoriesTemp,
-                              visibility: true,
-                              keywords: getKeywords(
-                                titleController.text,
-                              ),
-                              timestamp: Timestamp.now(),
+                              visibility: widget.productModel.visibility,
+                              keywords: getKeywords(titleController.text),
+                              timestamp: widget.productModel.timestamp,
                             );
 
-                            await state.uploadProductDetails(
-                                productModel: data);
+                            await state.updateProductDetails(
+                              productModel: data,
+                            );
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },
