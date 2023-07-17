@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/enums/enums.dart';
+import 'package:my_tune_admin/model/uploads_model/category_model.dart';
+import 'package:my_tune_admin/pages/product_list_page/widgets/update_product_dialog_box.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 
@@ -11,6 +13,8 @@ import 'package:provider/provider.dart';
 
 import '../../general/constants.dart';
 
+import '../../model/product_model/product_model.dart';
+import '../../provider/products_page_provider/category_search_provider.dart';
 import '../users_page/widgets/custom_search_field.dart';
 import 'widgets/add_product_dialog_box.dart';
 
@@ -212,17 +216,23 @@ class ProductListPage extends StatelessWidget {
                                   itemCount: state1.products.length,
                                   itemBuilder: (context, index) {
                                     final product = state1.products[index];
-                                    return InkWell(
-                                      onTap: () {
-                                        // state.showCategories(
-                                        //   value: false,
-                                        //   categoryId: product.id,
-                                        //   name: product.title,
-                                        // );
+
+                                    return ProductListItem(
+                                      product: product,
+                                      onEditPresed: () async {
+                                        Provider.of<CategorySearchProvider>(
+                                          context,
+                                          listen: false,
+                                        ).setCategoryTemp(
+                                          product.craftAndCrew,
+                                        );
+                                        await showEditDialogMeassage(
+                                          context: context,
+                                          productModel: product,
+                                        );
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.pop(context);
                                       },
-                                      child: ProductListItem(
-                                        product: product,
-                                      ),
                                     );
                                   })
                               : SliverFillRemaining(
@@ -299,6 +309,22 @@ class ProductListPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future showEditDialogMeassage(
+      {required BuildContext context, required ProductModel productModel}) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            type: MaterialType.transparency,
+            child: SingleChildScrollView(
+              child: UpdateProductDialogBox(
+                productModel: productModel,
+              ),
+            ),
+          );
+        });
   }
 
   Future<void> showDialogMeassage({

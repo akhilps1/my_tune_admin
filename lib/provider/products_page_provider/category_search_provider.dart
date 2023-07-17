@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -13,6 +11,16 @@ class CategorySearchProvider extends ChangeNotifier {
   bool isDataEmpty = false;
   bool showCircularIndicater = false;
 
+  // ProductModel? _productModel;
+
+  // get productModel => _productModel;
+
+  // set setProductModel(ProductModel productModel) {
+  //   _productModel = productModel;
+  //   categoriesTemp = productModel.craftAndCrew;
+  //   notifyListeners();
+  // }
+
   List<CategoryModel> categories = [];
   List<CategoryModel> categoriesTemp = [];
 
@@ -23,7 +31,7 @@ class CategorySearchProvider extends ChangeNotifier {
   }) async {
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
 
-    if (lastDoc == null) {
+    if (lastDoc != null) {
       categories.clear();
       loadDataFromFirebase = true;
       lastDoc = null;
@@ -81,6 +89,9 @@ class CategorySearchProvider extends ChangeNotifier {
     CustomToast.successToast('${category.categoryName} added');
 
     categoriesTemp.add(category);
+
+    print(categoriesTemp);
+
     notifyListeners();
   }
 
@@ -109,8 +120,11 @@ class CategorySearchProvider extends ChangeNotifier {
     showCircularIndicater = false;
   }
 
-  setCategoryTemp(List<CategoryModel> categoryList) {
-    categoriesTemp = categoryList;
+  setCategoryTemp(Map<String, Map<String, dynamic>> datas) {
+    datas.forEach((key, value) {
+      categoriesTemp.add(CategoryModel.fromMap(value));
+    });
+    // print(categoryList);
 
     notifyListeners();
   }

@@ -9,6 +9,7 @@ import 'package:my_tune_admin/general/keywords.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
+import 'package:my_tune_admin/serveice/converter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../serveice/custom_toast.dart';
@@ -227,6 +228,12 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               return;
                             }
 
+                            // Map<String, Map<String, dynamic>> datas = {};
+
+                            // for (var element in state1.categoriesTemp) {
+                            //   datas[element.id!] = element.toMap();
+                            // }
+
                             final ProductModel data = ProductModel(
                               categoryId: state.categoryId!,
                               title: titleController.text,
@@ -234,7 +241,8 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               imageUrl: state.url!,
                               likes: 0,
                               views: 0,
-                              craftAndCrew: state1.categoriesTemp,
+                              craftAndCrew:
+                                  convertListToMap(state1.categoriesTemp),
                               visibility: true,
                               keywords: getKeywords(
                                 titleController.text,

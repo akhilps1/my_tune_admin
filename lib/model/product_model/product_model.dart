@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 
 class ProductModel {
@@ -12,13 +11,17 @@ class ProductModel {
   String imageUrl;
   final int likes;
   final int views;
-  List<CategoryModel> craftAndCrew;
+  Map<String, Map<String, dynamic>> craftAndCrew;
+
+  List<CategoryModel>? categories;
+
   final String categoryId;
   List keywords;
   final Timestamp timestamp;
   bool visibility;
   ProductModel({
     this.id,
+    this.categories,
     required this.categoryId,
     required this.title,
     required this.description,
@@ -39,9 +42,7 @@ class ProductModel {
       'imageUrl': imageUrl,
       'likes': likes,
       'views': views,
-      'craftAndCrew': craftAndCrew.map(
-        (e) => e.toMap(),
-      ),
+      'craftAndCrew': craftAndCrew,
       'visibilty': visibility,
       'keywords': keywords,
       'timestamp': timestamp
@@ -55,19 +56,29 @@ class ProductModel {
       id: datas.id,
       categoryId: data['categoryId'] as String,
       title: data['title'] as String,
-      visibility: data['visibilty'],
+      visibility: data['visibilty'] as bool,
       description: data['description'] as String,
       imageUrl: data['imageUrl'] as String,
       likes: data['likes'] as int,
       views: data['views'] as int,
-      craftAndCrew: List.from(
-        data['craftAndCrew'].map(
-          (e) => CategoryModel.fromMap(e),
-        ),
+      craftAndCrew: Map.from(
+        data['craftAndCrew'],
       ),
       keywords: data['keywords'] as List,
       timestamp: data['timestamp'] as Timestamp,
+      categories: convertMap(
+        Map.from(data['craftAndCrew']),
+      ),
     );
+  }
+
+  static List<CategoryModel> convertMap(
+      Map<String, Map<String, dynamic>> data) {
+    final List<CategoryModel> list = [];
+    data.forEach((key, value) {
+      list.add(CategoryModel.fromMap(value));
+    });
+    return list;
   }
 
   String toJson() => json.encode(toMap());
@@ -79,7 +90,7 @@ class ProductModel {
     String? imageUrl,
     int? likes,
     int? views,
-    List<CategoryModel>? craftAndCrew,
+    Map<String, Map<String, dynamic>>? craftAndCrew,
     String? categoryId,
     List? keywords,
     Timestamp? timestamp,

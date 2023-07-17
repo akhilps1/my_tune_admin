@@ -159,7 +159,7 @@ class ProductPageProvider extends ChangeNotifier {
       isLoading = false;
       isDataEmpty = true;
       showCircularIndicater = false;
-      // print(e.toString());
+      print(e.toString());
       CustomToast.normalToast('Nothing to show');
       notifyListeners();
     }
@@ -195,7 +195,11 @@ class ProductPageProvider extends ChangeNotifier {
 
     for (var element in products) {
       if (element.id == productModel.id) {
-        element.craftAndCrew = productModel.craftAndCrew;
+        productModel.craftAndCrew.forEach((key, value) {
+          print('updated');
+          element.craftAndCrew[key] = value;
+        });
+
         element.keywords = productModel.keywords;
         element.description = productModel.description;
         element.imageUrl = productModel.imageUrl;

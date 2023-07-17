@@ -5,20 +5,10 @@ import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddCraftAndCrew extends StatefulWidget {
-  const AddCraftAndCrew({super.key, this.categoryList});
+class EditCraftAndCrew extends StatelessWidget {
+  const EditCraftAndCrew({super.key, this.categoryList});
 
   final List<CategoryModel>? categoryList;
-
-  @override
-  State<AddCraftAndCrew> createState() => _AddCraftAndCrewState();
-}
-
-class _AddCraftAndCrewState extends State<AddCraftAndCrew> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

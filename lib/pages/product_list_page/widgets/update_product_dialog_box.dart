@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:my_tune_admin/model/product_model/product_model.dart';
 import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
+import 'package:my_tune_admin/serveice/converter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../serveice/custom_toast.dart';
@@ -18,6 +18,7 @@ import '../../banner_list_page/widgets/custom_memory_image_widget.dart';
 
 import 'add_craft_and_crew.dart';
 import 'custom_search_widget.dart';
+import 'edit_craft_and_crew.dart';
 
 class UpdateProductDialogBox extends StatefulWidget {
   const UpdateProductDialogBox({
@@ -44,14 +45,6 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
   void initState() {
     titleController.text = widget.productModel.title;
     descController.text = widget.productModel.description;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<CategorySearchProvider>(
-        context,
-        listen: false,
-      ).setCategoryTemp(
-        widget.productModel.craftAndCrew,
-      );
-    });
     super.initState();
   }
 
@@ -92,7 +85,7 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               child: InkWell(
                                 onTap: () {
                                   state.clearDoc();
-                                  // state1.clearDoc();
+                                  state1.clearDoc();
 
                                   Navigator.pop(context);
                                 },
@@ -218,7 +211,9 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                         ),
                         width: 380,
                         height: 100,
-                        child: const AddCraftAndCrew(),
+                        child: EditCraftAndCrew(
+                          categoryList: state1.categoriesTemp,
+                        ),
                       ),
                       kSizedBoxH10,
                       SizedBox(
@@ -259,7 +254,8 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                                   state.url ?? widget.productModel.imageUrl,
                               likes: widget.productModel.likes,
                               views: widget.productModel.views,
-                              craftAndCrew: state1.categoriesTemp,
+                              craftAndCrew:
+                                  convertListToMap(state1.categoriesTemp),
                               visibility: widget.productModel.visibility,
                               keywords: getKeywords(titleController.text),
                               timestamp: widget.productModel.timestamp,
@@ -328,7 +324,7 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
         );
       },
       (success) async {
-        log(success.length.toString());
+        // log(success.length.toString());
         await state.uploadImage(bytesImage: success);
 
         setState(() {

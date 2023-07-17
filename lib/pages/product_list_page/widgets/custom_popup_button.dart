@@ -9,16 +9,18 @@ import 'package:my_tune_admin/provider/products_page_provider/products_page_prov
 import 'package:provider/provider.dart';
 
 import '../../../general/constants.dart';
-import '../../../provider/products_page_provider/category_search_provider.dart';
 import '../../../serveice/custom_popup.dart';
 
 class CustomPopupButton extends StatelessWidget {
   const CustomPopupButton({
     Key? key,
     required this.product,
+    required this.editPressed,
   }) : super(key: key);
 
   final ProductModel product;
+
+  final VoidCallback editPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,11 @@ class CustomPopupButton extends StatelessWidget {
       onSelected: (value) {
         if (value == 'Edit') {
           CustomPopup.showPopup(
-            context: context,
-            title: 'Do you want to edit',
-            content: '',
-            buttonText: 'Yes',
-            onPressed: () async {
-              await showDialogMeassage(
-                context: context,
-                productModel: product,
-              );
-              // ignore: use_build_context_synchronously
-              Navigator.pop(context);
-            },
-          );
+              context: context,
+              title: 'Do you want to edit',
+              content: '',
+              buttonText: 'Yes',
+              onPressed: editPressed);
         } else {
           CustomPopup.showPopup(
             context: context,
@@ -56,7 +50,9 @@ class CustomPopupButton extends StatelessWidget {
               await Provider.of<ProductPageProvider>(
                 context,
                 listen: false,
-              ).deleteProduct(productModel: product);
+              ).deleteProduct(
+                productModel: product,
+              );
               // ignore: use_build_context_synchronously
               Navigator.pop(context);
             },

@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/general/constants.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
-
+import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 
 import '../../../serveice/number_converter.dart';
 import 'custom_popup_button.dart';
 import 'custom_switch_button.dart';
 
-class ProductListItem extends StatelessWidget {
+class ProductListItem extends StatefulWidget {
   const ProductListItem({
     super.key,
     required this.product,
+    required this.onEditPresed,
   });
 
   final ProductModel product;
+  final VoidCallback onEditPresed;
+
+  @override
+  State<ProductListItem> createState() => _ProductListItemState();
+}
+
+class _ProductListItemState extends State<ProductListItem> {
+  final List<CategoryModel> categories = [];
+  @override
+  void initState() {
+    widget.product.craftAndCrew.forEach((key, value) {
+      categories.add(CategoryModel.fromMap(value));
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +64,7 @@ class ProductListItem extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: CustomCatchedNetworkImage(
-                        url: product.imageUrl,
+                        url: widget.product.imageUrl,
                       ),
                     ),
                   ),
@@ -58,7 +74,7 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 250,
                       child: Text(
-                        product.title,
+                        widget.product.title,
                         maxLines: 1,
                         softWrap: true,
                         style: const TextStyle(
@@ -73,7 +89,7 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 300,
                       child: Text(
-                        product.craftAndCrew
+                        categories
                             .map((e) => e.categoryName)
                             .toString()
                             .replaceAll('(', '')
@@ -92,7 +108,7 @@ class ProductListItem extends StatelessWidget {
                     SizedBox(
                       width: 350,
                       child: Text(
-                        product.description,
+                        widget.product.description,
                         maxLines: 1,
                         softWrap: true,
                         style: const TextStyle(
@@ -114,7 +130,7 @@ class ProductListItem extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   NumberFormatter.format(
-                    value: product.likes,
+                    value: widget.product.likes,
                   ),
                   style: const TextStyle(
                     fontSize: 15,
@@ -128,14 +144,17 @@ class ProductListItem extends StatelessWidget {
               flex: 1,
               fit: FlexFit.tight,
               child: CustomSwitchButton(
-                product: product,
+                product: widget.product,
               ),
             ),
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
               child: CustomPopupButton(
-                product: product,
+                editPressed: () {
+                  widget.onEditPresed.call();
+                },
+                product: widget.product,
               ),
             )
           ],

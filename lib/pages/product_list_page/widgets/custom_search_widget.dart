@@ -7,8 +7,15 @@ import 'package:my_tune_admin/provider/products_page_provider/category_search_pr
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:provider/provider.dart';
 
-class CustomSearchWidget extends StatelessWidget {
+class CustomSearchWidget extends StatefulWidget {
   const CustomSearchWidget({super.key});
+
+  @override
+  State<CustomSearchWidget> createState() => _CustomSearchWidgetState();
+}
+
+class _CustomSearchWidgetState extends State<CustomSearchWidget> {
+  bool radioValue = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,6 @@ class CustomSearchWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(),
                 InkWell(
                   onTap: () async {
                     Navigator.pop(context);
@@ -74,7 +80,6 @@ class CustomSearchWidget extends StatelessWidget {
                   suffixIcon: IconButton(
                     onPressed: () {
                       searchController.clear();
-                      state2.clearDoc();
                     },
                     icon: const Icon(
                       Icons.close,
@@ -127,7 +132,6 @@ class CustomSearchWidget extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       kSizedBoxW10,
-                                      kSizedBoxW10,
                                       SizedBox(
                                         height: 65,
                                         width: 65,
@@ -149,14 +153,63 @@ class CustomSearchWidget extends StatelessWidget {
                                           color: Colors.black38,
                                         ),
                                       ),
+                                      Text(
+                                        category.categoryName,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black38,
+                                        ),
+                                      ),
                                       const Spacer(),
+                                      SizedBox(
+                                        width: 70,
+                                        child: Row(
+                                          children: [
+                                            Radio(
+                                              value: true,
+                                              groupValue: radioValue,
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  radioValue = value!;
+                                                });
+                                              },
+                                            ),
+                                            const Text('Craft')
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 70,
+                                        child: Row(
+                                          children: [
+                                            Radio(
+                                              value: false,
+                                              groupValue: radioValue,
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  radioValue = value!;
+                                                });
+                                              },
+                                            ),
+                                            const Text('Craft')
+                                          ],
+                                        ),
+                                      ),
                                       IconButton(
                                         onPressed: () {
                                           state2.addCategoryToTemp(
                                             category: category,
                                           );
                                           state2.removeCategory(
-                                              category: category);
+                                            category: category,
+                                          );
                                         },
                                         icon: const Icon(Icons.add),
                                       ),
