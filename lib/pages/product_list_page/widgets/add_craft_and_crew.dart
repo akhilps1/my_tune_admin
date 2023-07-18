@@ -52,6 +52,8 @@ class _AddCraftAndCrewState extends State<AddCraftAndCrew> {
                           Text(
                             category.categoryName,
                           ),
+                          kSizedBoxW5,
+                          Text(category.isCraft == true ? '(Craft)' : '(Crew)'),
                           const Spacer(),
                           InkWell(
                             onTap: () {

@@ -50,8 +50,9 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ProductPageProvider, CategorySearchProvider>(
-      builder: (context, state, state1, _) => Column(
+    return Consumer3<ProductPageProvider, CategorySearchProvider,
+        CategorySearchProvider>(
+      builder: (context, state, state1, state3, _) => Column(
         children: [
           Dialog(
             alignment: AlignmentDirectional.center,
@@ -259,11 +260,15 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               visibility: widget.productModel.visibility,
                               keywords: getKeywords(titleController.text),
                               timestamp: widget.productModel.timestamp,
+                              categories: state3.categoriesTemp.isNotEmpty
+                                  ? state3.categoriesTemp
+                                  : widget.productModel.categories,
                             );
 
                             await state.updateProductDetails(
                               productModel: data,
                             );
+
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },

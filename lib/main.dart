@@ -57,7 +57,9 @@ class MyApp extends StatelessWidget {
           create: (_) => ProductPageProvider(),
         ),
         ChangeNotifierProvider<CategorySearchProvider>(
-            create: (_) => CategorySearchProvider())
+            create: (_) => CategorySearchProvider()),
+        ChangeNotifierProvider<ChangeRadioValue>(
+            create: (_) => ChangeRadioValue())
       ],
       child: MaterialApp(
         title: "MY Tune Admin",

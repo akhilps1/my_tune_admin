@@ -235,23 +235,27 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                             // }
 
                             final ProductModel data = ProductModel(
-                              categoryId: state.categoryId!,
+                              categoryId: state.categoryId,
                               title: titleController.text,
                               description: descController.text,
                               imageUrl: state.url!,
                               likes: 0,
                               views: 0,
-                              craftAndCrew:
-                                  convertListToMap(state1.categoriesTemp),
+                              craftAndCrew: convertListToMap(
+                                state1.categoriesTemp,
+                              ),
                               visibility: true,
                               keywords: getKeywords(
                                 titleController.text,
                               ),
                               timestamp: Timestamp.now(),
+                              categories: state1.categories,
                             );
 
                             await state.uploadProductDetails(
-                                productModel: data);
+                              productModel: data,
+                            );
+
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },

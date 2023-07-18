@@ -23,15 +23,6 @@ class ProductListItem extends StatefulWidget {
 }
 
 class _ProductListItemState extends State<ProductListItem> {
-  final List<CategoryModel> categories = [];
-  @override
-  void initState() {
-    widget.product.craftAndCrew.forEach((key, value) {
-      categories.add(CategoryModel.fromMap(value));
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -89,7 +80,7 @@ class _ProductListItemState extends State<ProductListItem> {
                     SizedBox(
                       width: 300,
                       child: Text(
-                        categories
+                        widget.product.categories
                             .map((e) => e.categoryName)
                             .toString()
                             .replaceAll('(', '')

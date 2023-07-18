@@ -42,6 +42,8 @@ class EditCraftAndCrew extends StatelessWidget {
                           Text(
                             category.categoryName,
                           ),
+                          kSizedBoxW5,
+                          Text(category.isCraft == true ? '(Craft)' : '(Crew)'),
                           const Spacer(),
                           InkWell(
                             onTap: () {

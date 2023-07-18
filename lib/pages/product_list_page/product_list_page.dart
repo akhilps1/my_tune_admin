@@ -224,7 +224,7 @@ class ProductListPage extends StatelessWidget {
                                           context,
                                           listen: false,
                                         ).setCategoryTemp(
-                                          product.craftAndCrew,
+                                          product.categories,
                                         );
                                         await showEditDialogMeassage(
                                           context: context,

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:my_tune_admin/model/uploads_model/category_model.dart';
 
 class ProductModel {
@@ -13,7 +14,7 @@ class ProductModel {
   final int views;
   Map<String, Map<String, dynamic>> craftAndCrew;
 
-  List<CategoryModel>? categories;
+  List<CategoryModel> categories;
 
   final String categoryId;
   List keywords;
@@ -21,7 +22,7 @@ class ProductModel {
   bool visibility;
   ProductModel({
     this.id,
-    this.categories,
+    this.categories = const [],
     required this.categoryId,
     required this.title,
     required this.description,
@@ -33,6 +34,10 @@ class ProductModel {
     required this.keywords,
     required this.timestamp,
   });
+
+  set setCategores(List<CategoryModel> list) {
+    categories = list;
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -52,6 +57,16 @@ class ProductModel {
   factory ProductModel.fromFireStore(
       QueryDocumentSnapshot<Map<String, dynamic>> datas) {
     Map<String, dynamic> data = datas.data();
+    final List<CategoryModel> list = [];
+    // convert map to category model
+    data['craftAndCrew'].forEach((key, value) {
+      list.add(
+        CategoryModel.fromMap(
+          value,
+        ),
+      );
+    });
+
     return ProductModel(
       id: datas.id,
       categoryId: data['categoryId'] as String,
@@ -66,19 +81,8 @@ class ProductModel {
       ),
       keywords: data['keywords'] as List,
       timestamp: data['timestamp'] as Timestamp,
-      categories: convertMap(
-        Map.from(data['craftAndCrew']),
-      ),
+      categories: list,
     );
-  }
-
-  static List<CategoryModel> convertMap(
-      Map<String, Map<String, dynamic>> data) {
-    final List<CategoryModel> list = [];
-    data.forEach((key, value) {
-      list.add(CategoryModel.fromMap(value));
-    });
-    return list;
   }
 
   String toJson() => json.encode(toMap());
@@ -109,5 +113,10 @@ class ProductModel {
       timestamp: timestamp ?? this.timestamp,
       visibility: visibility ?? this.visibility,
     );
+  }
+
+  @override
+  String toString() {
+    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, likes: $likes, views: $views, craftAndCrew: $craftAndCrew, categories: $categories, categoryId: $categoryId, keywords: $keywords, timestamp: $timestamp, visibility: $visibility)';
   }
 }

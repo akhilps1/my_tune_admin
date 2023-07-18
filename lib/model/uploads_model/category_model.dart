@@ -12,6 +12,7 @@ class CategoryModel {
   final num followers;
   final Timestamp timestamp;
   final List keywords;
+  bool isCraft;
   CategoryModel({
     required this.visibility,
     required this.categoryName,
@@ -20,7 +21,12 @@ class CategoryModel {
     required this.keywords,
     required this.followers,
     this.id,
+    this.isCraft = true,
   });
+
+  void changeCraftOrCrew() {
+    isCraft = !isCraft;
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -31,6 +37,7 @@ class CategoryModel {
       'timestamp': timestamp,
       'keywords': keywords,
       'followers': followers,
+      'isCraft': isCraft,
     };
   }
 
@@ -57,6 +64,7 @@ class CategoryModel {
       imageUrl: map['imageUrl'] as String,
       timestamp: map['timestamp'] as Timestamp,
       keywords: map['keywords'] as List,
+      isCraft: map['isCraft'],
     );
   }
   String toJson() => json.encode(toMap());
@@ -83,5 +91,10 @@ class CategoryModel {
         followers.hashCode ^
         timestamp.hashCode ^
         keywords.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft)';
   }
 }

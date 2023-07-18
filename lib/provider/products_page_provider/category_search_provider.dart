@@ -85,12 +85,25 @@ class CategorySearchProvider extends ChangeNotifier {
     }
   }
 
-  void addCategoryToTemp({required CategoryModel category}) {
+  void addCategoryToTemp({
+    required CategoryModel category,
+  }) {
     CustomToast.successToast('${category.categoryName} added');
 
-    categoriesTemp.add(category);
+    final data = CategoryModel(
+      id: category.id,
+      isCraft: category.isCraft,
+      visibility: category.visibility,
+      categoryName: category.categoryName,
+      imageUrl: category.imageUrl,
+      timestamp: category.timestamp,
+      keywords: category.keywords,
+      followers: category.followers,
+    );
 
-    print(categoriesTemp);
+    categoriesTemp.add(data);
+
+    // print(categoriesTemp);
 
     notifyListeners();
   }
@@ -120,10 +133,9 @@ class CategorySearchProvider extends ChangeNotifier {
     showCircularIndicater = false;
   }
 
-  setCategoryTemp(Map<String, Map<String, dynamic>> datas) {
-    datas.forEach((key, value) {
-      categoriesTemp.add(CategoryModel.fromMap(value));
-    });
+  setCategoryTemp(List<CategoryModel> categories) {
+    categoriesTemp = categories;
+
     // print(categoryList);
 
     notifyListeners();
@@ -133,6 +145,15 @@ class CategorySearchProvider extends ChangeNotifier {
     categories.clear();
     categoriesTemp.clear();
     lastDoc = null;
+    notifyListeners();
+  }
+}
+
+class ChangeRadioValue with ChangeNotifier {
+  bool value = true;
+
+  setValue(bool newValue) {
+    value = newValue;
     notifyListeners();
   }
 }
