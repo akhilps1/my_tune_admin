@@ -73,13 +73,13 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                             state.clearDoc();
                             await state.searhCategory(
                               categoryName: controller.text.toLowerCase(),
-                              categoryState: GetCategoryState.search,
+                              categoryState: GetDataState.search,
                             );
                           },
                           onPress: () async {
                             controller.clear();
                             await state.getCategoriesByLimit(
-                              categoryState: GetCategoryState.normal,
+                              categoryState: GetDataState.normal,
                             );
                           },
                           controller: controller,
@@ -213,7 +213,7 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                                                 listen: false,
                                               ).getProductsByLimit(
                                                 productState:
-                                                    GetProductState.normal,
+                                                    GetDataState.normal,
                                                 id: category.id!,
                                               );
 
@@ -259,7 +259,7 @@ class _UploadsPageWidgetState extends State<UploadsPageWidget> {
                                               onPressed: () async {
                                                 state.getCategoriesByLimit(
                                                   categoryState:
-                                                      GetCategoryState.normal,
+                                                      GetDataState.normal,
                                                 );
                                               },
                                               child: state.showCircularIndicater ==

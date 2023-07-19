@@ -141,6 +141,7 @@ class _EditCategoryDialogBoxState extends State<EditCategoryDialogBox> {
                             }
 
                             final CategoryModel categoryModel = CategoryModel(
+                              isTopTen: widget.categoryModel.isTopTen,
                               id: widget.categoryModel.id,
                               visibility: true,
                               categoryName: controller.text,

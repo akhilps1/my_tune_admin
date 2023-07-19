@@ -13,9 +13,9 @@ class UserPageProvider extends ChangeNotifier {
   bool isLoading = true;
   bool isDataEmpty = false;
   bool showCircularIndicater = false;
-  GetUserState currentState = GetUserState.normal;
+  GetDataState currentState = GetDataState.normal;
 
-  Future<void> getUsersByLimit({required GetUserState loadstate}) async {
+  Future<void> getUsersByLimit({required GetDataState loadstate}) async {
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
     currentState = loadstate;
 
@@ -68,7 +68,7 @@ class UserPageProvider extends ChangeNotifier {
   }
 
   Future<void> searchUserUsingMobileNumber(
-      {required String mobileNumber, required GetUserState loadstate}) async {
+      {required String mobileNumber, required GetDataState loadstate}) async {
     currentState = loadstate;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
 

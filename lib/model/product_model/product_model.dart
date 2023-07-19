@@ -12,6 +12,8 @@ class ProductModel {
   String imageUrl;
   final int likes;
   final int views;
+  bool isTodayRelease;
+  bool isTopThree;
   Map<String, Map<String, dynamic>> craftAndCrew;
 
   List<CategoryModel> categories;
@@ -24,6 +26,8 @@ class ProductModel {
     this.id,
     this.categories = const [],
     required this.categoryId,
+    required this.isTodayRelease,
+    required this.isTopThree,
     required this.title,
     required this.description,
     required this.imageUrl,
@@ -50,7 +54,9 @@ class ProductModel {
       'craftAndCrew': craftAndCrew,
       'visibilty': visibility,
       'keywords': keywords,
-      'timestamp': timestamp
+      'timestamp': timestamp,
+      'isTodayRelease': isTodayRelease,
+      'isTopThree': isTopThree,
     };
   }
 
@@ -82,10 +88,17 @@ class ProductModel {
       keywords: data['keywords'] as List,
       timestamp: data['timestamp'] as Timestamp,
       categories: list,
+      isTodayRelease: data['isTodayRelease'] as bool,
+      isTopThree: data['isTopThree'] as bool,
     );
   }
 
   String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, likes: $likes, views: $views, isTodayRelease: $isTodayRelease, isTopThree: $isTopThree, craftAndCrew: $craftAndCrew, categories: $categories, categoryId: $categoryId, keywords: $keywords, timestamp: $timestamp, visibility: $visibility)';
+  }
 
   ProductModel copyWith({
     String? id,
@@ -94,7 +107,10 @@ class ProductModel {
     String? imageUrl,
     int? likes,
     int? views,
+    bool? isTodayRelease,
+    bool? isTopThree,
     Map<String, Map<String, dynamic>>? craftAndCrew,
+    List<CategoryModel>? categories,
     String? categoryId,
     List? keywords,
     Timestamp? timestamp,
@@ -107,16 +123,14 @@ class ProductModel {
       imageUrl: imageUrl ?? this.imageUrl,
       likes: likes ?? this.likes,
       views: views ?? this.views,
+      isTodayRelease: isTodayRelease ?? this.isTodayRelease,
+      isTopThree: isTopThree ?? this.isTopThree,
       craftAndCrew: craftAndCrew ?? this.craftAndCrew,
+      categories: categories ?? this.categories,
       categoryId: categoryId ?? this.categoryId,
       keywords: keywords ?? this.keywords,
       timestamp: timestamp ?? this.timestamp,
       visibility: visibility ?? this.visibility,
     );
-  }
-
-  @override
-  String toString() {
-    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, likes: $likes, views: $views, craftAndCrew: $craftAndCrew, categories: $categories, categoryId: $categoryId, keywords: $keywords, timestamp: $timestamp, visibility: $visibility)';
   }
 }

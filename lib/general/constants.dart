@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/pages/top_three_release/top_three_release_page.dart';
 
 import '../pages/banner_list_page/banner_list_page_widget.dart';
 import '../pages/uploads_page/uploads_page_widget.dart';
@@ -13,7 +14,8 @@ const List<Widget> pages = [
   UserPageWidget(),
   TrendingPageWidget(),
   ReleasePageWidget(),
-  NotificationPageWidget()
+  TopThreeReleasePageWidget(),
+  NotificationPageWidget(),
 ];
 const kSizedBoxW10 = SizedBox(
   width: 10,

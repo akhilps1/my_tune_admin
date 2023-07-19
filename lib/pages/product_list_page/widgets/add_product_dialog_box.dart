@@ -239,6 +239,8 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               title: titleController.text,
                               description: descController.text,
                               imageUrl: state.url!,
+                              isTodayRelease: false,
+                              isTopThree: false,
                               likes: 0,
                               views: 0,
                               craftAndCrew: convertListToMap(
@@ -249,7 +251,7 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                                 titleController.text,
                               ),
                               timestamp: Timestamp.now(),
-                              categories: state1.categories,
+                              categories: state1.categoriesTemp,
                             );
 
                             await state.uploadProductDetails(

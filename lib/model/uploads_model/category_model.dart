@@ -13,6 +13,7 @@ class CategoryModel {
   final Timestamp timestamp;
   final List keywords;
   bool isCraft;
+  bool isTopTen;
   CategoryModel({
     required this.visibility,
     required this.categoryName,
@@ -20,6 +21,7 @@ class CategoryModel {
     required this.timestamp,
     required this.keywords,
     required this.followers,
+    required this.isTopTen,
     this.id,
     this.isCraft = true,
   });
@@ -38,6 +40,7 @@ class CategoryModel {
       'keywords': keywords,
       'followers': followers,
       'isCraft': isCraft,
+      'isTopTen': isTopTen
     };
   }
 
@@ -52,20 +55,21 @@ class CategoryModel {
       imageUrl: map['imageUrl'] as String,
       timestamp: map['timestamp'] as Timestamp,
       keywords: map['keywords'] as List,
+      isTopTen: map['isTopTen'] as bool,
     );
   }
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      id: map['id'] as String,
-      followers: map['followers'] as num,
-      visibility: map['visibility'] as bool,
-      categoryName: map['categoryName'] as String,
-      imageUrl: map['imageUrl'] as String,
-      timestamp: map['timestamp'] as Timestamp,
-      keywords: map['keywords'] as List,
-      isCraft: map['isCraft'],
-    );
+        id: map['id'] as String,
+        followers: map['followers'] as num,
+        visibility: map['visibility'] as bool,
+        categoryName: map['categoryName'] as String,
+        imageUrl: map['imageUrl'] as String,
+        timestamp: map['timestamp'] as Timestamp,
+        keywords: map['keywords'] as List,
+        isCraft: map['isCraft'] as bool,
+        isTopTen: map['isTopTen'] as bool);
   }
   String toJson() => json.encode(toMap());
 
@@ -93,8 +97,32 @@ class CategoryModel {
         keywords.hashCode;
   }
 
+  CategoryModel copyWith({
+    String? id,
+    bool? visibility,
+    String? categoryName,
+    String? imageUrl,
+    num? followers,
+    Timestamp? timestamp,
+    List? keywords,
+    bool? isCraft,
+    bool? isTopTen,
+  }) {
+    return CategoryModel(
+      id: id ?? this.id,
+      visibility: visibility ?? this.visibility,
+      categoryName: categoryName ?? this.categoryName,
+      imageUrl: imageUrl ?? this.imageUrl,
+      followers: followers ?? this.followers,
+      timestamp: timestamp ?? this.timestamp,
+      keywords: keywords ?? this.keywords,
+      isCraft: isCraft ?? this.isCraft,
+      isTopTen: isTopTen ?? this.isTopTen,
+    );
+  }
+
   @override
   String toString() {
-    return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft)';
+    return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft, isTopTen: $isTopTen)';
   }
 }

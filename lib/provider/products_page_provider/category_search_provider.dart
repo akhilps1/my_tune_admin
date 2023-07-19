@@ -92,6 +92,7 @@ class CategorySearchProvider extends ChangeNotifier {
 
     final data = CategoryModel(
       id: category.id,
+      isTopTen: category.isTopTen,
       isCraft: category.isCraft,
       visibility: category.visibility,
       categoryName: category.categoryName,
@@ -138,6 +139,13 @@ class CategorySearchProvider extends ChangeNotifier {
 
     // print(categoryList);
 
+    notifyListeners();
+  }
+
+  void clearLastDoc() {
+    categories.clear();
+
+    lastDoc = null;
     notifyListeners();
   }
 

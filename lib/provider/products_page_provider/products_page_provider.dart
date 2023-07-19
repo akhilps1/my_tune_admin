@@ -23,11 +23,13 @@ class ProductPageProvider extends ChangeNotifier {
   bool isDataEmpty = false;
   bool showCircularIndicater = false;
 
+  Set set = {};
+
   bool show = true;
 
   String categoryId = '';
 
-  GetProductState state = GetProductState.normal;
+  GetDataState state = GetDataState.normal;
 
   List<ProductModel> products = [];
 
@@ -81,25 +83,25 @@ class ProductPageProvider extends ChangeNotifier {
             productModel.toMap(),
           );
 
-      // ProductModel(
-      // categoryId: productModel.categoryId,
-      // title: productModel.title,
-      // description: productModel.description,
-      // imageUrl: productModel.imageUrl,
-      // likes: productModel.likes,
-      // views: productModel.views,
-      // craftAndCrew: productModel.craftAndCrew,
-      // visibility: productModel.visibility,
-      // keywords: productModel.keywords,
-      // timestamp: productModel.timestamp,
-      // categories: List.from(CategoryModel.fromMap(
-      //   Map.from(
-      //     productModel.craftAndCrew,
-      //   ),
-      // ) as List));
+      final data = ProductModel(
+        id: id,
+        isTodayRelease: productModel.isTodayRelease,
+        isTopThree: productModel.isTopThree,
+        categoryId: productModel.categoryId,
+        title: productModel.title,
+        description: productModel.description,
+        imageUrl: productModel.imageUrl,
+        likes: productModel.likes,
+        views: productModel.views,
+        craftAndCrew: productModel.craftAndCrew,
+        visibility: productModel.visibility,
+        keywords: productModel.keywords,
+        timestamp: productModel.timestamp,
+        categories: productModel.categories,
+      );
 
       products.add(
-        productModel.copyWith(id: id),
+        data,
       );
 
       isLoading = false;
@@ -117,7 +119,7 @@ class ProductPageProvider extends ChangeNotifier {
   }
 
   Future<void> getProductsByLimit({
-    required GetProductState productState,
+    required GetDataState productState,
     required String id,
   }) async {
     categoryId = id;
@@ -257,7 +259,7 @@ class ProductPageProvider extends ChangeNotifier {
 
   Future<void> searhProduct({
     required String productName,
-    required GetProductState getProductState,
+    required GetDataState getProductState,
   }) async {
     state = getProductState;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;

@@ -178,6 +178,7 @@ class _AddCategoryDialogBoxState extends State<AddCategoryDialogBox> {
 
                             final CategoryModel categoryModel = CategoryModel(
                               visibility: true,
+                              isTopTen: false,
                               categoryName: controller.text,
                               imageUrl: state.url!,
                               timestamp: Timestamp.now(),

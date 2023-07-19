@@ -5,6 +5,8 @@ import 'package:my_tune_admin/provider/banner_list_provider/banner_list_page_pro
 import 'package:my_tune_admin/provider/notification_provider/notification_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/category_search_provider.dart';
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
+import 'package:my_tune_admin/provider/todays_release/product_search_provider.dart';
+import 'package:my_tune_admin/provider/todays_release/todays_release_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
 import 'package:my_tune_admin/screens/admn_screen.dart';
@@ -44,13 +46,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<UserPageProvider>(
           create: (context) => UserPageProvider()
             ..getUsersByLimit(
-              loadstate: GetUserState.normal,
+              loadstate: GetDataState.normal,
             ),
         ),
         ChangeNotifierProvider<UploadsPageProvider>(
           create: (_) => UploadsPageProvider()
             ..getCategoriesByLimit(
-              categoryState: GetCategoryState.normal,
+              categoryState: GetDataState.normal,
             ),
         ),
         ChangeNotifierProvider<ProductPageProvider>(
@@ -59,7 +61,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CategorySearchProvider>(
             create: (_) => CategorySearchProvider()),
         ChangeNotifierProvider<ChangeRadioValue>(
-            create: (_) => ChangeRadioValue())
+          create: (_) => ChangeRadioValue(),
+        ),
+        ChangeNotifierProvider<TodaysReleaseProvider>(
+          create: (context) => TodaysReleaseProvider()
+            ..getTodaysReleaseByLimit(
+              productState: GetDataState.normal,
+            ),
+        ),
+        ChangeNotifierProvider<ProductSearchProvider>(
+          create: (context) => ProductSearchProvider(),
+        )
       ],
       child: MaterialApp(
         title: "MY Tune Admin",

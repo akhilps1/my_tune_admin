@@ -69,7 +69,7 @@ class _CustomSearchWidgetState extends State<CustomSearchWidget> {
                   textInputAction: TextInputAction.search,
                   onChanged: (value) {
                     if (state2.lastDoc != null) {
-                      state2.clearDoc();
+                      state2.clearLastDoc();
                     }
                   },
                   onFieldSubmitted: (value) async {

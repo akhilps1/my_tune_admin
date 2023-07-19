@@ -57,7 +57,7 @@ class SideNavigationWidget extends StatelessWidget {
           ),
           SideMenuItem(
             priority: 4,
-            title: 'Release',
+            title: 'Todays Release',
             onTap: (index, _) {
               sideMenuController.changePage(index);
             },
@@ -65,6 +65,16 @@ class SideNavigationWidget extends StatelessWidget {
           ),
           SideMenuItem(
             priority: 5,
+            title: 'Top 3 Release',
+            onTap: (index, _) {
+              sideMenuController.changePage(index);
+            },
+            icon: const Icon(
+              Icons.interests,
+            ),
+          ),
+          SideMenuItem(
+            priority: 6,
             title: 'Notification',
             onTap: (index, _) {
               sideMenuController.changePage(index);

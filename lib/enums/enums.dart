@@ -1,14 +1,4 @@
-enum GetUserState {
-  search,
-  normal,
-}
-
-enum GetCategoryState {
-  search,
-  normal,
-}
-
-enum GetProductState {
+enum GetDataState {
   search,
   normal,
 }

@@ -26,7 +26,7 @@ class UploadsPageProvider extends ChangeNotifier {
 
   String? categoryId, categoryName;
 
-  GetCategoryState state = GetCategoryState.normal;
+  GetDataState state = GetDataState.normal;
 
   List<CategoryModel> categories = [];
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
@@ -76,6 +76,7 @@ class UploadsPageProvider extends ChangeNotifier {
 
       categories.add(CategoryModel(
           id: id,
+          isTopTen: categoryModel.isTopTen,
           visibility: categoryModel.visibility,
           categoryName: categoryModel.categoryName,
           imageUrl: categoryModel.imageUrl,
@@ -97,7 +98,7 @@ class UploadsPageProvider extends ChangeNotifier {
   }
 
   Future<void> getCategoriesByLimit({
-    required GetCategoryState categoryState,
+    required GetDataState categoryState,
   }) async {
     state = categoryState;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
@@ -158,12 +159,14 @@ class UploadsPageProvider extends ChangeNotifier {
     required bool value,
   }) async {
     final data = CategoryModel(
-        visibility: value,
-        categoryName: categoryModel.categoryName,
-        imageUrl: categoryModel.imageUrl,
-        timestamp: categoryModel.timestamp,
-        keywords: categoryModel.keywords,
-        followers: categoryModel.followers);
+      visibility: value,
+      isTopTen: categoryModel.isTopTen,
+      categoryName: categoryModel.categoryName,
+      imageUrl: categoryModel.imageUrl,
+      timestamp: categoryModel.timestamp,
+      keywords: categoryModel.keywords,
+      followers: categoryModel.followers,
+    );
 
     for (var element in categories) {
       if (element.id == categoryModel.id) {
@@ -220,7 +223,7 @@ class UploadsPageProvider extends ChangeNotifier {
 
   Future<void> searhCategory({
     required String categoryName,
-    required GetCategoryState categoryState,
+    required GetDataState categoryState,
   }) async {
     state = categoryState;
     QuerySnapshot<Map<String, dynamic>> refreshedClass;

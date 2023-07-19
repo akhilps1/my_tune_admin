@@ -88,7 +88,7 @@ class ProductListPage extends StatelessWidget {
                       state1.clearfetcedData();
                       await state1.searhProduct(
                         productName: searchController.text,
-                        getProductState: GetProductState.search,
+                        getProductState: GetDataState.search,
                       );
                     },
                     onPress: () async {
@@ -96,7 +96,7 @@ class ProductListPage extends StatelessWidget {
                       searchController.clear();
 
                       await state1.getProductsByLimit(
-                        productState: GetProductState.normal,
+                        productState: GetDataState.normal,
                         id: state1.categoryId!,
                       );
                     },
@@ -269,8 +269,7 @@ class ProductListPage extends StatelessWidget {
                                         minWidth: 200,
                                         onPressed: () async {
                                           state1.getProductsByLimit(
-                                            productState:
-                                                GetProductState.normal,
+                                            productState: GetDataState.normal,
                                             id: state1.categoryId!,
                                           );
                                         },

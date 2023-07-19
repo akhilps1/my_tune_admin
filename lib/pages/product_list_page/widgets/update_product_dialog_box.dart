@@ -248,6 +248,8 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
 
                             final ProductModel data = ProductModel(
                               id: widget.productModel.id,
+                              isTodayRelease: false,
+                              isTopThree: false,
                               categoryId: widget.productModel.categoryId,
                               title: titleController.text,
                               description: descController.text,

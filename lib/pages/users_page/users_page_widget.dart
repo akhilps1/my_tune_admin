@@ -55,14 +55,14 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           state.clearDoc();
 
                           await state.getUsersByLimit(
-                            loadstate: GetUserState.normal,
+                            loadstate: GetDataState.normal,
                           );
                         },
                         onFieldSubmitted: (value) async {
                           state.clearDoc();
 
                           await state.searchUserUsingMobileNumber(
-                            loadstate: GetUserState.search,
+                            loadstate: GetDataState.search,
                             mobileNumber: searchController.text,
                           );
                         },
@@ -119,16 +119,16 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                               minWidth: 200,
                                               onPressed: () async {
                                                 if (state.currentState ==
-                                                    GetUserState.normal) {
+                                                    GetDataState.normal) {
                                                   await state.getUsersByLimit(
                                                     loadstate:
-                                                        GetUserState.normal,
+                                                        GetDataState.normal,
                                                   );
                                                 } else {
                                                   await state
                                                       .searchUserUsingMobileNumber(
                                                     loadstate:
-                                                        GetUserState.search,
+                                                        GetDataState.search,
                                                     mobileNumber:
                                                         searchController.text,
                                                   );
