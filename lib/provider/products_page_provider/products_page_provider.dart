@@ -23,8 +23,6 @@ class ProductPageProvider extends ChangeNotifier {
   bool isDataEmpty = false;
   bool showCircularIndicater = false;
 
-  Set set = {};
-
   bool show = true;
 
   String categoryId = '';
