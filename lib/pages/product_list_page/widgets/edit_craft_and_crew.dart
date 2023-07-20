@@ -25,7 +25,8 @@ class EditCraftAndCrew extends StatelessWidget {
                   ),
                   itemCount: state.categoriesTemp.length,
                   itemBuilder: (context, index) {
-                    final CategoryModel category = state.categoriesTemp[index];
+                    final CategoryModel category =
+                        state.categoriesTemp.toList()[index];
                     return Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[100],

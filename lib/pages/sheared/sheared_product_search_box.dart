@@ -151,9 +151,11 @@ class ShearedProductSearchBox extends StatelessWidget {
                                         width: 70,
                                         child: Text(
                                           product.title,
+                                          maxLines: 1,
                                           style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.ellipsis,
                                             color: Colors.black38,
                                           ),
                                         ),

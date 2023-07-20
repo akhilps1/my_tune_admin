@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_tune_admin/model/user_model/user_model.dart';
+import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 
 import '../../../general/constants.dart';
 import 'user_contact_details.dart';
@@ -40,9 +41,18 @@ class UserDetailsWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     backgroundColor: Colors.blue,
                     radius: 50,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      child: CustomCatchedNetworkImage(
+                        url: appUser.imageUrl,
+                        showIcon: true,
+                      ),
+                    ),
                   ),
                   kSizedBoxH10,
                   Text(appUser.userName),

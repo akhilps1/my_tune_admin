@@ -95,7 +95,7 @@ class _BannerListPageWidgetState extends State<BannerListPageWidget> {
                                           if (value == 'Edit') {
                                             CustomPopup.showPopup(
                                               context: context,
-                                              title: 'Do you want to delete',
+                                              title: 'Do you want to edit',
                                               content: '',
                                               buttonText: 'Yes',
                                               onPressed: () {

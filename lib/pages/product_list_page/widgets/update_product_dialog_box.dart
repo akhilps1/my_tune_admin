@@ -85,7 +85,7 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               alignment: Alignment.centerRight,
                               child: InkWell(
                                 onTap: () {
-                                  state.clearDoc();
+                                  // state.clearDoc();
                                   state1.clearDoc();
 
                                   Navigator.pop(context);
@@ -213,7 +213,7 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                         width: 380,
                         height: 100,
                         child: EditCraftAndCrew(
-                          categoryList: state1.categoriesTemp,
+                          categoryList: state1.categoriesTemp.toList(),
                         ),
                       ),
                       kSizedBoxH10,
@@ -248,8 +248,9 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
 
                             final ProductModel data = ProductModel(
                               id: widget.productModel.id,
-                              isTodayRelease: false,
-                              isTopThree: false,
+                              isTodayRelease:
+                                  widget.productModel.isTodayRelease,
+                              isTopThree: widget.productModel.isTopThree,
                               categoryId: widget.productModel.categoryId,
                               title: titleController.text,
                               description: descController.text,
@@ -257,15 +258,15 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                                   state.url ?? widget.productModel.imageUrl,
                               likes: widget.productModel.likes,
                               views: widget.productModel.views,
-                              craftAndCrew:
-                                  convertListToMap(state1.categoriesTemp),
+                              craftAndCrew: convertListToMap(
+                                  state1.categoriesTemp.toList()),
                               visibility: widget.productModel.visibility,
                               keywords: getKeywords(titleController.text),
                               timestamp: widget.productModel.timestamp,
                               categories: state3.categoriesTemp.isNotEmpty
-                                  ? state3.categoriesTemp
+                                  ? state3.categoriesTemp.toList()
                                   : widget.productModel.categories,
-                              isTrending: false,
+                              isTrending: widget.productModel.isTrending,
                             );
 
                             await state.updateProductDetails(

@@ -22,7 +22,7 @@ class CategorySearchProvider extends ChangeNotifier {
   // }
 
   List<CategoryModel> categories = [];
-  List<CategoryModel> categoriesTemp = [];
+  Set<CategoryModel> categoriesTemp = {};
 
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
@@ -123,7 +123,7 @@ class CategorySearchProvider extends ChangeNotifier {
         .where(
           (element) => element.id != category.id,
         )
-        .toList();
+        .toSet();
     notifyListeners();
   }
 
@@ -135,10 +135,8 @@ class CategorySearchProvider extends ChangeNotifier {
   }
 
   setCategoryTemp(List<CategoryModel> categories) {
-    categoriesTemp = categories;
-
+    categoriesTemp = categories.toSet();
     // print(categoryList);
-
     notifyListeners();
   }
 
@@ -151,7 +149,7 @@ class CategorySearchProvider extends ChangeNotifier {
 
   void clearDoc() {
     categories.clear();
-    categoriesTemp.clear();
+    // categoriesTemp.clear();
     lastDoc = null;
     notifyListeners();
   }

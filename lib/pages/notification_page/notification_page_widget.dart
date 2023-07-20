@@ -28,7 +28,7 @@ class NotificationPageWidget extends StatelessWidget {
                 ),
                 centerTitle: true,
                 backgroundColor: Colors.white,
-                elevation: -1,
+                elevation: 1,
               ),
               Expanded(
                 child: ListView(

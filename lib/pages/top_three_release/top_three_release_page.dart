@@ -6,6 +6,7 @@ import 'package:my_tune_admin/enums/enums.dart';
 
 import 'package:my_tune_admin/pages/product_list_page/widgets/update_product_dialog_box.dart';
 import 'package:my_tune_admin/provider/todays_release/product_search_provider.dart';
+import 'package:my_tune_admin/serveice/custom_toast.dart';
 
 import 'package:provider/provider.dart';
 
@@ -46,35 +47,39 @@ class TopThreeReleasePageWidget extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () async {
-                  await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Material(
-                          type: MaterialType.transparency,
-                          child: ShearedProductSearchBox(
-                            searchController: productSearchController,
-                            onClose: () {
-                              Navigator.pop(context);
-                            },
-                            onClearTextClicked: () {
-                              state1.clearProduct();
-                              productSearchController.clear();
-                            },
-                            onTextChanged: (value) {
-                              if (state1.lastDoc != null) {
+                  if (state.products.length == 3) {
+                    CustomToast.errorToast('Maximum three videos allowed');
+                  } else {
+                    await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Material(
+                            type: MaterialType.transparency,
+                            child: ShearedProductSearchBox(
+                              searchController: productSearchController,
+                              onClose: () {
+                                Navigator.pop(context);
+                              },
+                              onClearTextClicked: () {
                                 state1.clearProduct();
-                              }
-                            },
-                            onTextSubmitted: (value) async {
-                              await state1.searchProducts(
-                                productName: value,
-                                collectionName: 'isTopThree',
-                                rState: ReleaseState.top3,
-                              );
-                            },
-                          ),
-                        );
-                      });
+                                productSearchController.clear();
+                              },
+                              onTextChanged: (value) {
+                                if (state1.lastDoc != null) {
+                                  state1.clearProduct();
+                                }
+                              },
+                              onTextSubmitted: (value) async {
+                                await state1.searchProducts(
+                                  productName: value,
+                                  collectionName: 'isTopThree',
+                                  rState: ReleaseState.top3,
+                                );
+                              },
+                            ),
+                          );
+                        });
+                  }
                 },
                 icon: const Icon(
                   Icons.add,
@@ -103,6 +108,7 @@ class TopThreeReleasePageWidget extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    kSizedBoxH10,
                     Container(
                       margin: const EdgeInsets.only(
                         top: 10,

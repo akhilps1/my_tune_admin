@@ -244,14 +244,14 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               likes: 0,
                               views: 0,
                               craftAndCrew: convertListToMap(
-                                state1.categoriesTemp,
+                                state1.categoriesTemp.toList(),
                               ),
                               visibility: true,
                               keywords: getKeywords(
                                 titleController.text,
                               ),
                               timestamp: Timestamp.now(),
-                              categories: state1.categoriesTemp,
+                              categories: state1.categoriesTemp.toList(),
                               isTrending: false,
                             );
 
