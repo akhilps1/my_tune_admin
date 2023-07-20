@@ -7,6 +7,8 @@ import 'package:my_tune_admin/provider/products_page_provider/category_search_pr
 import 'package:my_tune_admin/provider/products_page_provider/products_page_provider.dart';
 import 'package:my_tune_admin/provider/todays_release/product_search_provider.dart';
 import 'package:my_tune_admin/provider/todays_release/todays_release_provider.dart';
+import 'package:my_tune_admin/provider/top_three_release/top_three_release_provider.dart';
+import 'package:my_tune_admin/provider/trending_page_provider/trending_page_provider.dart';
 import 'package:my_tune_admin/provider/uploads_page_provider/uploads_page_provider.dart';
 import 'package:my_tune_admin/provider/users_page_provider.dart/user_page_provider.dart';
 import 'package:my_tune_admin/screens/admn_screen.dart';
@@ -64,14 +66,23 @@ class MyApp extends StatelessWidget {
           create: (_) => ChangeRadioValue(),
         ),
         ChangeNotifierProvider<TodaysReleaseProvider>(
-          create: (context) => TodaysReleaseProvider()
+          create: (_) => TodaysReleaseProvider()
             ..getTodaysReleaseByLimit(
               productState: GetDataState.normal,
             ),
         ),
+        ChangeNotifierProvider<TopThreeReleasePageProvider>(
+          create: (_) => TopThreeReleasePageProvider()..getTopThreeByLimit(),
+        ),
         ChangeNotifierProvider<ProductSearchProvider>(
-          create: (context) => ProductSearchProvider(),
-        )
+          create: (_) => ProductSearchProvider(),
+        ),
+        ChangeNotifierProvider<TrendingPageProvider>(
+          create: (_) => TrendingPageProvider()
+            ..getTrendingReleaseByLimit(
+              productState: GetDataState.normal,
+            ),
+        ),
       ],
       child: MaterialApp(
         title: "MY Tune Admin",

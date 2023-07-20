@@ -6,7 +6,6 @@ import 'package:my_tune_admin/enums/enums.dart';
 
 import 'package:my_tune_admin/pages/product_list_page/widgets/update_product_dialog_box.dart';
 import 'package:my_tune_admin/provider/todays_release/product_search_provider.dart';
-import 'package:my_tune_admin/provider/todays_release/todays_release_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,9 @@ import '../../general/constants.dart';
 
 import '../../model/product_model/product_model.dart';
 
+import '../../provider/top_three_release/top_three_release_provider.dart';
 import '../sheared/sheared_product_search_box.dart';
-import '../users_page/widgets/custom_search_field.dart';
+
 import 'widgets/product_list_item.dart';
 
 class TopThreeReleasePageWidget extends StatelessWidget {
@@ -26,10 +26,10 @@ class TopThreeReleasePageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    TextEditingController searchController = TextEditingController();
+
     TextEditingController productSearchController = TextEditingController();
 
-    return Consumer2<TodaysReleaseProvider, ProductSearchProvider>(
+    return Consumer2<TopThreeReleasePageProvider, ProductSearchProvider>(
       builder: (context, state, state1, _) => Column(
         children: [
           AppBar(
@@ -68,6 +68,8 @@ class TopThreeReleasePageWidget extends StatelessWidget {
                             onTextSubmitted: (value) async {
                               await state1.searchProducts(
                                 productName: value,
+                                collectionName: 'isTopThree',
+                                rState: ReleaseState.top3,
                               );
                             },
                           ),
@@ -82,45 +84,8 @@ class TopThreeReleasePageWidget extends StatelessWidget {
               kSizedBoxW10
             ],
           ),
-          Flexible(
-            flex: 1,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: size.width >= 500 ? 50 : 20,
-                  right: size.width >= 500 ? 50 : 20,
-                ),
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 300),
-                  // width: size.width * 0.25,
-                  child: CustomSearchField(
-                    hint: 'Search Video',
-                    onChanged: (value) {},
-                    onFieldSubmitted: (value) async {
-                      state.clearfetcedData();
-                      await state.searchTodaysReleaseByLimit(
-                        productName: searchController.text,
-                        value: true,
-                        getProductState: GetDataState.search,
-                      );
-                    },
-                    onPress: () async {
-                      state.clearfetcedData();
-                      searchController.clear();
-
-                      await state.getTodaysReleaseByLimit(
-                        productState: GetDataState.normal,
-                      );
-                    },
-                    controller: searchController,
-                  ),
-                ),
-              ),
-            ),
-          ),
           Expanded(
-            flex: 6,
+            flex: 1,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
@@ -247,34 +212,6 @@ class TopThreeReleasePageWidget extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          state.isDataEmpty == false &&
-                                  state.products.length >= 7
-                              ? SliverToBoxAdapter(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 20,
-                                    ),
-                                    color: Colors.white,
-                                    child: Center(
-                                      child: MaterialButton(
-                                        color: Colors.black,
-                                        textColor: Colors.white,
-                                        height: 50,
-                                        minWidth: 200,
-                                        onPressed: () async {
-                                          state.getTodaysReleaseByLimit(
-                                            productState: GetDataState.normal,
-                                          );
-                                        },
-                                        child: state.showCircularIndicater ==
-                                                false
-                                            ? const Text('Show more')
-                                            : const CupertinoActivityIndicator(),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : const SliverToBoxAdapter(),
                           SliverPadding(
                             padding: const EdgeInsets.only(bottom: 20),
                             sliver: SliverToBoxAdapter(

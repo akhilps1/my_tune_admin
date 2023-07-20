@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/general/constants.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
 import 'package:my_tune_admin/provider/todays_release/product_search_provider.dart';
 import 'package:my_tune_admin/provider/todays_release/todays_release_provider.dart';
+import 'package:my_tune_admin/provider/top_three_release/top_three_release_provider.dart';
+import 'package:my_tune_admin/provider/trending_page_provider/trending_page_provider.dart';
 import 'package:provider/provider.dart';
 
 class ShearedProductSearchBox extends StatelessWidget {
@@ -158,13 +161,36 @@ class ShearedProductSearchBox extends StatelessWidget {
                                       const Spacer(),
                                       IconButton(
                                         onPressed: () async {
-                                          await Provider.of<
-                                              TodaysReleaseProvider>(
-                                            context,
-                                            listen: false,
-                                          ).updateTodayRelease(
-                                            productModel: product,
-                                          );
+                                          switch (state.releaseState) {
+                                            case ReleaseState.today:
+                                              await Provider.of<
+                                                  TodaysReleaseProvider>(
+                                                context,
+                                                listen: false,
+                                              ).updateTodayRelease(
+                                                productModel: product,
+                                              );
+                                              break;
+
+                                            case ReleaseState.top3:
+                                              await Provider.of<
+                                                  TopThreeReleasePageProvider>(
+                                                context,
+                                                listen: false,
+                                              ).updateTopThreeRelease(
+                                                productModel: product,
+                                              );
+                                              break;
+                                            case ReleaseState.trending:
+                                              await Provider.of<
+                                                  TrendingPageProvider>(
+                                                context,
+                                                listen: false,
+                                              ).updateTrendingRelease(
+                                                productModel: product,
+                                              );
+                                              break;
+                                          }
                                           state.clearProduct();
                                         },
                                         icon: const Icon(Icons.add),

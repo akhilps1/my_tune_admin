@@ -81,25 +81,25 @@ class ProductPageProvider extends ChangeNotifier {
             productModel.toMap(),
           );
 
-      final data = ProductModel(
-        id: id,
-        isTodayRelease: productModel.isTodayRelease,
-        isTopThree: productModel.isTopThree,
-        categoryId: productModel.categoryId,
-        title: productModel.title,
-        description: productModel.description,
-        imageUrl: productModel.imageUrl,
-        likes: productModel.likes,
-        views: productModel.views,
-        craftAndCrew: productModel.craftAndCrew,
-        visibility: productModel.visibility,
-        keywords: productModel.keywords,
-        timestamp: productModel.timestamp,
-        categories: productModel.categories,
-      );
+      // final data = ProductModel(
+      //   id: id,
+      //   isTodayRelease: productModel.isTodayRelease,
+      //   isTopThree: productModel.isTopThree,
+      //   categoryId: productModel.categoryId,
+      //   title: productModel.title,
+      //   description: productModel.description,
+      //   imageUrl: productModel.imageUrl,
+      //   likes: productModel.likes,
+      //   views: productModel.views,
+      //   craftAndCrew: productModel.craftAndCrew,
+      //   visibility: productModel.visibility,
+      //   keywords: productModel.keywords,
+      //   timestamp: productModel.timestamp,
+      //   categories: productModel.categories,
+      // );
 
       products.add(
-        data,
+        productModel,
       );
 
       isLoading = false;

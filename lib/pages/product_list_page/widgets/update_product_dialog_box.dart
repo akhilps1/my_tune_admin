@@ -265,6 +265,7 @@ class _UpdateProductDialogBoxState extends State<UpdateProductDialogBox> {
                               categories: state3.categoriesTemp.isNotEmpty
                                   ? state3.categoriesTemp
                                   : widget.productModel.categories,
+                              isTrending: false,
                             );
 
                             await state.updateProductDetails(

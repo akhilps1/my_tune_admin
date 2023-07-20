@@ -9,7 +9,7 @@ import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import '../../serveice/custom_toast.dart';
 
-class TopThreeReleasePageProvider extends ChangeNotifier {
+class TrendingPageProvider extends ChangeNotifier {
   bool isLoading = false;
 
   bool loadDataFromFirebase = true;
@@ -24,34 +24,52 @@ class TopThreeReleasePageProvider extends ChangeNotifier {
 
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
-  Future<void> getTodaysReleaseByLimit() async {
+  Future<void> getTrendingReleaseByLimit({
+    required GetDataState productState,
+  }) async {
+    state = productState;
+    QuerySnapshot<Map<String, dynamic>> refreshedClass;
+
+    if (lastDoc == null) {
+      loadDataFromFirebase = true;
+    }
     isLoading = true;
     showCircularIndicater = true;
     isDataEmpty = false;
     notifyListeners();
-
     try {
-      FirebaseFirestore.instance
-          .collection('products')
-          .orderBy('timestamp')
-          .where(
-            'isTopThree',
-            isEqualTo: true,
-          )
-          .snapshots()
-          .listen(
-        (event) {
-          products.clear();
-          for (var element in event.docs) {
-            products.add(
-              ProductModel.fromFireStore(
-                element,
-              ),
-            );
-          }
-          notifyListeners();
-        },
+      refreshedClass = lastDoc == null
+          ? await FirebaseFirestore.instance
+              .collection('products')
+              .orderBy('timestamp', descending: true)
+              .where(
+                'isTrending',
+                isEqualTo: true,
+              )
+              .limit(7)
+              .get()
+          : await FirebaseFirestore.instance
+              .collection('products')
+              .orderBy('timestamp', descending: true)
+              .where(
+                'isTrending',
+                isEqualTo: true,
+              )
+              .startAfterDocument(lastDoc!)
+              .limit(4)
+              .get();
+
+      lastDoc = refreshedClass.docs.last;
+
+      if (refreshedClass.docs.length <= 7) {
+        isLoading = false;
+      }
+      products.addAll(
+        refreshedClass.docs.map((e) {
+          return ProductModel.fromFireStore(e);
+        }),
       );
+      // log(categories.toString());
 
       loadDataFromFirebase = false;
       showCircularIndicater = false;
@@ -62,31 +80,31 @@ class TopThreeReleasePageProvider extends ChangeNotifier {
       isLoading = false;
       isDataEmpty = true;
       showCircularIndicater = false;
-      // print(e.toString());
+      print(e);
       CustomToast.normalToast('Nothing to show');
       notifyListeners();
     }
   }
 
-  Future<void> updateTodayRelease({
+  Future<void> updateTrendingRelease({
     required ProductModel productModel,
   }) async {
     isLoading = true;
 
     products.add(productModel);
 
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('products')
         .doc(productModel.id)
         .update(
-          productModel.copyWith(isTopThree: true).toMap(),
+          productModel.copyWith(isTrending: true).toMap(),
         );
 
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> removeTodayRelease({
+  Future<void> removeTrendingRelease({
     required ProductModel productModel,
   }) async {
     isLoading = true;
@@ -101,14 +119,14 @@ class TopThreeReleasePageProvider extends ChangeNotifier {
         .collection('products')
         .doc(productModel.id)
         .update(
-          productModel.copyWith(isTopThree: false).toMap(),
+          productModel.copyWith(isTrending: false).toMap(),
         );
 
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> searchTodaysReleaseByLimit({
+  Future<void> searchTrendingReleaseByLimit({
     required String productName,
     required bool value,
     GetDataState? getProductState,
@@ -132,28 +150,28 @@ class TopThreeReleasePageProvider extends ChangeNotifier {
       refreshedClass = lastDoc == null
           ? await FirebaseFirestore.instance
               .collection('products')
-              .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                'isTrending',
                 isEqualTo: value,
               )
               .where(
                 'keywords',
                 arrayContains: productName,
               )
+              .orderBy('timestamp')
               .limit(7)
               .get()
           : await FirebaseFirestore.instance
               .collection('products')
-              .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                'isTrending',
                 isEqualTo: value,
               )
               .where(
                 'keywords',
                 arrayContains: productName,
               )
+              .orderBy('timestamp')
               .startAfterDocument(lastDoc!)
               .limit(4)
               .get();

@@ -3,10 +3,9 @@ import 'package:my_tune_admin/general/constants.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import 'package:my_tune_admin/pages/banner_list_page/widgets/custom_catched_network.dart';
-
+import 'package:my_tune_admin/provider/trending_page_provider/trending_page_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../provider/top_three_release/top_three_release_provider.dart';
 import '../../../serveice/custom_popup.dart';
 import '../../../serveice/number_converter.dart';
 
@@ -152,10 +151,10 @@ class _ProductListItemState extends State<ProductListItem> {
                         content: '',
                         buttonText: 'Yes',
                         onPressed: () async {
-                          await Provider.of<TopThreeReleasePageProvider>(
+                          await Provider.of<TrendingPageProvider>(
                             context,
                             listen: false,
-                          ).removeTodayRelease(
+                          ).removeTrendingRelease(
                             productModel: widget.product,
                           );
                           // ignore: use_build_context_synchronously

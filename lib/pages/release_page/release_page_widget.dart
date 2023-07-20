@@ -68,6 +68,8 @@ class ReleasePageWidget extends StatelessWidget {
                             onTextSubmitted: (value) async {
                               await state1.searchProducts(
                                 productName: value,
+                                collectionName: 'isTodayRelease',
+                                rState: ReleaseState.today,
                               );
                             },
                           ),

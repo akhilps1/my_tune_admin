@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:my_tune_admin/enums/enums.dart';
 import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import '../../model/uploads_model/category_model.dart';
@@ -14,12 +15,18 @@ class ProductSearchProvider extends ChangeNotifier {
 
   List<ProductModel> products = [];
 
+  ReleaseState releaseState = ReleaseState.today;
+
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
   Future<void> searchProducts({
     required String productName,
+    required String collectionName,
+    required ReleaseState rState,
   }) async {
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
+
+    releaseState = rState;
 
     if (lastDoc != null) {
       products.clear();
@@ -37,7 +44,7 @@ class ProductSearchProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                collectionName,
                 isEqualTo: false,
               )
               .where(
@@ -50,7 +57,7 @@ class ProductSearchProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                collectionName,
                 isEqualTo: false,
               )
               .where(

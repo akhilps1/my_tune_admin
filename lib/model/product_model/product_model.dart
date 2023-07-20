@@ -10,18 +10,21 @@ class ProductModel {
   String title;
   String description;
   String imageUrl;
+  final String categoryId;
+
   final int likes;
   final int views;
   bool isTodayRelease;
   bool isTopThree;
+  bool visibility;
+  bool isTrending;
+
   Map<String, Map<String, dynamic>> craftAndCrew;
 
   List<CategoryModel> categories;
-
-  final String categoryId;
   List keywords;
+
   final Timestamp timestamp;
-  bool visibility;
   ProductModel({
     this.id,
     this.categories = const [],
@@ -37,6 +40,7 @@ class ProductModel {
     required this.visibility,
     required this.keywords,
     required this.timestamp,
+    required this.isTrending,
   });
 
   set setCategores(List<CategoryModel> list) {
@@ -57,6 +61,7 @@ class ProductModel {
       'timestamp': timestamp,
       'isTodayRelease': isTodayRelease,
       'isTopThree': isTopThree,
+      'isTrending': isTrending,
     };
   }
 
@@ -74,30 +79,30 @@ class ProductModel {
     });
 
     return ProductModel(
-      id: datas.id,
-      categoryId: data['categoryId'] as String,
-      title: data['title'] as String,
-      visibility: data['visibilty'] as bool,
-      description: data['description'] as String,
-      imageUrl: data['imageUrl'] as String,
-      likes: data['likes'] as int,
-      views: data['views'] as int,
-      craftAndCrew: Map.from(
-        data['craftAndCrew'],
-      ),
-      keywords: data['keywords'] as List,
-      timestamp: data['timestamp'] as Timestamp,
-      categories: list,
-      isTodayRelease: data['isTodayRelease'] as bool,
-      isTopThree: data['isTopThree'] as bool,
-    );
+        id: datas.id,
+        categoryId: data['categoryId'] as String,
+        title: data['title'] as String,
+        visibility: data['visibilty'] as bool,
+        description: data['description'] as String,
+        imageUrl: data['imageUrl'] as String,
+        likes: data['likes'] as int,
+        views: data['views'] as int,
+        craftAndCrew: Map.from(
+          data['craftAndCrew'],
+        ),
+        keywords: data['keywords'] as List,
+        timestamp: data['timestamp'] as Timestamp,
+        categories: list,
+        isTodayRelease: data['isTodayRelease'] as bool,
+        isTopThree: data['isTopThree'] as bool,
+        isTrending: data['isTrending']);
   }
 
   String toJson() => json.encode(toMap());
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, likes: $likes, views: $views, isTodayRelease: $isTodayRelease, isTopThree: $isTopThree, craftAndCrew: $craftAndCrew, categories: $categories, categoryId: $categoryId, keywords: $keywords, timestamp: $timestamp, visibility: $visibility)';
+    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, categoryId: $categoryId, likes: $likes, views: $views, isTodayRelease: $isTodayRelease, isTopThree: $isTopThree, visibility: $visibility, isTrending: $isTrending, craftAndCrew: $craftAndCrew, categories: $categories, keywords: $keywords, timestamp: $timestamp)';
   }
 
   ProductModel copyWith({
@@ -105,32 +110,34 @@ class ProductModel {
     String? title,
     String? description,
     String? imageUrl,
+    String? categoryId,
     int? likes,
     int? views,
     bool? isTodayRelease,
     bool? isTopThree,
+    bool? visibility,
+    bool? isTrending,
     Map<String, Map<String, dynamic>>? craftAndCrew,
     List<CategoryModel>? categories,
-    String? categoryId,
     List? keywords,
     Timestamp? timestamp,
-    bool? visibility,
   }) {
     return ProductModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
+      categoryId: categoryId ?? this.categoryId,
       likes: likes ?? this.likes,
       views: views ?? this.views,
       isTodayRelease: isTodayRelease ?? this.isTodayRelease,
       isTopThree: isTopThree ?? this.isTopThree,
+      visibility: visibility ?? this.visibility,
+      isTrending: isTrending ?? this.isTrending,
       craftAndCrew: craftAndCrew ?? this.craftAndCrew,
       categories: categories ?? this.categories,
-      categoryId: categoryId ?? this.categoryId,
       keywords: keywords ?? this.keywords,
       timestamp: timestamp ?? this.timestamp,
-      visibility: visibility ?? this.visibility,
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:my_tune_admin/model/product_model/product_model.dart';
 
 import '../../serveice/custom_toast.dart';
 
-class TodaysReleaseProvider extends ChangeNotifier {
+class TopThreeReleasePageProvider extends ChangeNotifier {
   bool isLoading = false;
 
   bool loadDataFromFirebase = true;
@@ -24,80 +24,62 @@ class TodaysReleaseProvider extends ChangeNotifier {
 
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
-  Future<void> getTodaysReleaseByLimit({
-    required GetDataState productState,
-  }) async {
-    state = productState;
-    QuerySnapshot<Map<String, dynamic>> refreshedClass;
-
-    if (lastDoc == null) {
-      loadDataFromFirebase = true;
-    }
+  Future<void> getTopThreeByLimit() async {
     isLoading = true;
     showCircularIndicater = true;
     isDataEmpty = false;
     notifyListeners();
+
     try {
-      refreshedClass = lastDoc == null
-          ? await FirebaseFirestore.instance
-              .collection('products')
-              .orderBy('timestamp', descending: true)
-              .where(
-                'isTodayRelease',
-                isEqualTo: true,
-              )
-              .limit(7)
-              .get()
-          : await FirebaseFirestore.instance
-              .collection('products')
-              .orderBy('timestamp', descending: true)
-              .where(
-                'isTodayRelease',
-                isEqualTo: true,
-              )
-              .startAfterDocument(lastDoc!)
-              .limit(4)
-              .get();
+      FirebaseFirestore.instance
+          .collection('products')
+          .where(
+            'isTopThree',
+            isEqualTo: true,
+          )
+          .orderBy('timestamp')
+          .snapshots()
+          .listen(
+        (event) {
+          products.clear();
+          for (var element in event.docs) {
+            products.add(
+              ProductModel.fromFireStore(
+                element,
+              ),
+            );
+          }
+          isLoading = false;
+          loadDataFromFirebase = false;
+          showCircularIndicater = false;
 
-      lastDoc = refreshedClass.docs.last;
-
-      if (refreshedClass.docs.length <= 7) {
-        isLoading = false;
-      }
-      products.addAll(
-        refreshedClass.docs.map((e) {
-          return ProductModel.fromFireStore(e);
-        }),
+          notifyListeners();
+        },
       );
-      // log(categories.toString());
-
+    } catch (e) {
       loadDataFromFirebase = false;
       showCircularIndicater = false;
-      notifyListeners();
-
-      // log(users.length.toString());
-    } catch (e) {
       isLoading = false;
-      isDataEmpty = true;
-      showCircularIndicater = false;
-      print(e.toString());
-      CustomToast.normalToast('Nothing to show');
+
       notifyListeners();
+      print(e);
     }
+
+    // log(users.length.toString());
   }
 
-  Future<void> updateTodayRelease({
+  Future<void> updateTopThreeRelease({
     required ProductModel productModel,
   }) async {
     isLoading = true;
 
-    products.add(productModel);
+    // products.add(productModel);
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('products')
         .doc(productModel.id)
         .update(
-          productModel.copyWith(isTodayRelease: true).toMap(),
+          productModel.copyWith(isTopThree: true).toMap(),
         );
 
     isLoading = false;
@@ -109,17 +91,13 @@ class TodaysReleaseProvider extends ChangeNotifier {
   }) async {
     isLoading = true;
 
-    products = products
-        .where(
-          (element) => element.id != productModel.id,
-        )
-        .toList();
+    print(productModel.id);
 
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('products')
         .doc(productModel.id)
         .update(
-          productModel.copyWith(isTodayRelease: false).toMap(),
+          productModel.copyWith(isTopThree: false).toMap(),
         );
 
     isLoading = false;
@@ -152,7 +130,7 @@ class TodaysReleaseProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                'isTopThree',
                 isEqualTo: value,
               )
               .where(
@@ -165,7 +143,7 @@ class TodaysReleaseProvider extends ChangeNotifier {
               .collection('products')
               .orderBy('timestamp')
               .where(
-                'isTodayRelease',
+                'isTopThree',
                 isEqualTo: value,
               )
               .where(

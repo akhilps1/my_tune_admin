@@ -252,6 +252,7 @@ class _AddProductDialogBoxState extends State<AddProductDialogBox> {
                               ),
                               timestamp: Timestamp.now(),
                               categories: state1.categoriesTemp,
+                              isTrending: false,
                             );
 
                             await state.uploadProductDetails(
